@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JEKPE — платформа для турниров по единоборствам</title>
+<script src="vendor/supabase-2.119.0.js"></script>
+<script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -400,11 +402,11 @@ footer{border-top:1px solid var(--line);padding:60px 0 30px;background:#050506}
   <div class="head-row"><div><div class="eyebrow" data-i18n="pr.eyebrow">Тарифы</div><h2 data-i18n="pr.h2">Платите кредитами — только за реальных участников</h2><p class="sub" data-i18n="pr.sub">1 кредит = 1 подтверждённая регистрация на турнир. Без абонентской платы. Атлеты регистрируются бесплатно.</p></div></div>
   <div class="prices">
    <div class="pr"><h3 data-i18n="pr.1h">Старт</h3><div class="price">5 000 ₸</div><div class="cr"><b>10</b> <span data-i18n="pr.cr">кредитов</span></div><p data-i18n="pr.1p">500 ₸ за участника. Для клубных турниров и открытых ковров.</p>
-    <button class="btn btn-line" onclick="openM('reg','org')" data-i18n="pr.btn">Купить</button></div>
+    <button class="btn btn-line" onclick="location.href='app.html#org'" data-i18n="pr.btn">Купить</button></div>
    <div class="pr hl" data-badge="Популярный"><h3 data-i18n="pr.2h">Турнир</h3><div class="price">45 000 ₸</div><div class="cr"><b>100</b> <span data-i18n="pr.cr">кредитов</span> <em>−10%</em></div><p data-i18n="pr.2p">450 ₸ за участника. Для городских и областных соревнований.</p>
-    <button class="btn btn-red" onclick="openM('reg','org')" data-i18n="pr.btn">Купить</button></div>
+    <button class="btn btn-red" onclick="location.href='app.html#org'" data-i18n="pr.btn">Купить</button></div>
    <div class="pr"><h3 data-i18n="pr.3h">Чемпионат</h3><div class="price">200 000 ₸</div><div class="cr"><b>500</b> <span data-i18n="pr.cr">кредитов</span> <em>−20%</em></div><p data-i18n="pr.3p">400 ₸ за участника. Для республиканских и международных турниров.</p>
-    <button class="btn btn-line" onclick="openM('reg','org')" data-i18n="pr.btn">Купить</button></div>
+    <button class="btn btn-line" onclick="location.href='app.html#org'" data-i18n="pr.btn">Купить</button></div>
    <div class="pr"><h3 data-i18n="pr.4h">Федерация</h3><div class="price" data-i18n="pr.4price">Индивидуально</div><div class="cr"><b>1000+</b> <span data-i18n="pr.cr">кредитов</span></div><p data-i18n="pr.4p">Годовой пакет, рейтинги, лицензии и персональный менеджер.</p>
     <button class="btn btn-line" onclick="openM('contact')" data-i18n="pr.btn2">Связаться</button></div>
   </div>
@@ -557,12 +559,12 @@ function t(k){return (I[L]&&I[L][k])||I.ru[k]||k}
 function renderEvents(f){
  const box=document.getElementById("evList");
  box.innerHTML=EV.filter(e=>f==="all"||e.s===f).map((e,i)=>`
- <div class="ev"><div class="ev-img" style="background:linear-gradient(135deg,${e.g})">
-  <span class="ev-tag">${e.s==="bjj"?"BJJ":e.s==="mma"?"MMA":t("sp."+e.s)}</span>
+ <div class="ev" ${e.id?`style="cursor:pointer" onclick="if(event.target.tagName!=='BUTTON')location.href='app.html#event-${e.id}'"`:""}><div class="ev-img" style="background:linear-gradient(135deg,${e.g})">
+  <span class="ev-tag">${e.tag||(e.s==="bjj"?"BJJ":e.s==="mma"?"MMA":t("sp."+e.s))}</span>
   <div class="ev-date"><b>${e.d[0]}</b><span>${MON[L][e.d[1]]}</span></div></div>
-  <div class="ev-body"><h3>${e.n}</h3><div class="ev-meta"><span>📍 ${CITY[e.c][L]} · ${e.v}</span><span>👥 ${e.p} ${t("ev.part")}</span></div>
+  <div class="ev-body"><h3>${esc(e.n)}</h3><div class="ev-meta"><span>📍 ${CITY[e.c]?CITY[e.c][L]:esc(e.c||"—")}${e.v?" · "+esc(e.v):""}</span>${e.p!=null?`<span>👥 ${e.p} ${t("ev.part")}</span>`:""}</div>
   <div class="ev-foot"><span style="color:${e.open?"#22c55e":"var(--muted)"}">● ${e.open?t("ev.open"):t("ev.soon")}</span>
-  <button class="btn ${e.open?"btn-red":"btn-line"}" ${e.open?"":"disabled style='opacity:.5;cursor:default'"} onclick="toast(t('ev.done'))">${t("ev.reg")}</button></div></div></div>`).join("")||"<p style='color:var(--muted)'>—</p>";
+  <button class="btn ${e.open?"btn-red":"btn-line"}" ${e.open?"":"disabled style='opacity:.5;cursor:default'"} onclick="${e.id?`location.href='app.html#event-${e.id}'`:`toast(t('ev.done'))`}">${t("ev.reg")}</button></div></div></div>`).join("")||"<p style='color:var(--muted)'>—</p>";
 }
 const ICONS=['<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>','<path d="M4 4h5v6H4zM4 14h5v6H4zM15 9h5v6h-5zM9 7h3v10H9M12 12h3"/>','<rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3M7 11h2M15 11h2"/>','<path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>','<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>','<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>','<path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>','<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>'];
 function renderFeats(){document.getElementById("featList").innerHTML=t("feat").map((f,i)=>`<div class="feat"><div class="ico"><svg viewBox="0 0 24 24">${ICONS[i]}</svg></div><h3>${f[0]}</h3><p>${f[1]}</p></div>`).join("")}
@@ -581,7 +583,8 @@ document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dat
 document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("on"));b.classList.add("on");curF=b.dataset.f;renderEvents(curF)});
 /* modal */
 let mMode=null;
-function openM(m,role){mMode=m;document.getElementById("mForm").style.display="";document.getElementById("mOk").style.display="none";document.getElementById("form").reset();if(role)document.getElementById("roleSel").value=role;paintM();document.getElementById("modal").classList.add("show");document.querySelector(".mnav").classList.remove("open")}
+function openM(m,role){if(m==="login"){location.href="app.html#login";return}if(m==="reg"){location.href="app.html#signup"+(role==="org"?"-organizer":role==="club"?"-coach":"");return}openModal(m,role)}
+function openModal(m,role){mMode=m;document.getElementById("mForm").style.display="";document.getElementById("mOk").style.display="none";document.getElementById("form").reset();if(role)document.getElementById("roleSel").value=role;paintM();document.getElementById("modal").classList.add("show");document.querySelector(".mnav").classList.remove("open")}
 function paintM(){
  const m=mMode,show=(id,v)=>document.getElementById(id).style.display=v?"":"none";
  document.getElementById("mTitle").textContent=t(m==="login"?"m.loginT":m==="reg"?"m.regT":"m.cT");
@@ -605,6 +608,16 @@ function calc(){const r=document.getElementById("calcR");if(!r)return;const n=+r
  const f=x=>x.toLocaleString("ru-RU").replace(/,/g," ")+" ₸";
  document.getElementById("calcN").textContent=n;document.getElementById("calcC").textContent=n;document.getElementById("calcP").textContent=f(n*u);document.getElementById("calcU").textContent=f(u)}
 document.getElementById("calcR").oninput=calc;calc();
+
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const SPN={bjj:["bjj","BJJ"],judo:["judo",null],free:["wrestling",null],greco:["wrestling",null],sambo:["sambo","Самбо"],karate:["karate","Karate WKF"]};
+const GR=["#7a0b16,#1a0306","#123a8a,#050d22","#6b4a00,#1a1200","#00585a,#001a1a","#4b1b7a,#12051f","#7a3a0b,#1f0d02"];
+(async()=>{try{if(!window.supabase||!window.JEKPE_CONFIG)return;
+ const sbc=supabase.createClient(JEKPE_CONFIG.supabaseUrl,JEKPE_CONFIG.supabaseKey);
+ const {data}=await sbc.from("events").select("id,title,sport,city,venue,starts_on,status").in("status",["open","closed","live"]).order("starts_on").limit(6);
+ if(!data||!data.length)return;
+ EV.length=0;data.forEach((e,i)=>{const d=new Date(e.starts_on+"T00:00:00");EV.push({id:e.id,n:e.title,s:SPN[e.sport][0],tag:SPN[e.sport][1],d:[d.getDate(),d.getMonth()],c:e.city,v:e.venue,p:null,open:e.status==="open",g:GR[i%GR.length]})});
+ renderEvents(curF);}catch(e){}})();
 let saved="ru";try{saved=localStorage.getItem("jekpe-lang")||"ru"}catch(e){}
 setLang(saved);
 </script>
