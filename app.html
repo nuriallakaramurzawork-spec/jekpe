@@ -96,6 +96,26 @@ td input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok)}
 .chk{display:flex;flex-wrap:wrap;gap:8px}
 .chk label{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:14px;cursor:pointer;color:var(--text)}
 .chk input{accent-color:var(--accent)}
+.belt{display:inline-block;width:34px;height:10px;border-radius:3px;border:1px solid rgba(255,255,255,.25);vertical-align:middle;margin-right:6px}
+.avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7a0b16);display:grid;place-items:center;font-size:30px;font-weight:900;flex-shrink:0}
+.phead{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.tile{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.tile b{display:block;font-size:30px;font-weight:900;line-height:1.1}.tile small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.bar{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}.bar span:first-child{width:170px;color:var(--muted)}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--accent)}
+.res-w{color:var(--ok);font-weight:800}.res-l{color:#f87171;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;place-items:center;z-index:120;padding:16px}
+.modal.show{display:grid}.mbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;width:100%;max-width:480px;max-height:92vh;overflow:auto}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pick button{padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--bg2);color:var(--text);font-weight:800;font-size:15px}
+.pick button.r.on{border-color:#dc2626;background:rgba(220,38,38,.15)}.pick button.b.on{border-color:#2563eb;background:rgba(37,99,235,.15)}
+.sc{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.sc input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px;color:var(--text)}
+.bm.click{cursor:pointer}.bm.click:hover{border-color:var(--accent)}
+.podium{display:flex;gap:10px;flex-wrap:wrap}.podium div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:700}
+.entry{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:var(--bg2);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:700px){.tiles{grid-template-columns:repeat(3,1fr)}.bar span:first-child{width:120px}}
 .burger{display:none;background:none;color:var(--text);font-size:24px}
 @media(max-width:860px){
  .grid{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}
@@ -123,7 +143,7 @@ td input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok)}
 <script>
 /* ================= i18n ================= */
 const TX={
-ru:{round:"Круг",fromPreset:"Категории по шаблону федерации",ageGroup:"Возрастная группа",belts:"Пояса",withOpen:"+ абсолютная категория",createN:"Создать категории",createdN:"Создано категорий",customDiv:"Своя категория",belt_white:"Белый",belt_blue:"Синий",belt_purple:"Фиолетовый",belt_brown:"Коричневый",belt_black:"Чёрный",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпийская, две бронзы (IBJJF)",b_repechage_judo:"С утешительными (IJF)",b_repechage_full:"С утешительными (UWW / FIAS / WKF)",b_pools:"Группы + плей-офф",b_best_of_3:"До двух побед (2 участника)",draw:"Жеребьёвка",redraw:"Перетянуть жребий",bracketBtn:"Сетка",noConfirmed:"Нет подтверждённых участников",drawDone:"Жеребьёвка проведена",redrawQ:"Нажмите ещё раз — текущая сетка будет удалена",final:"Финал",bronzeM:"За 3-е место",pool:"Группа",bye:"проход",bout:"Схватка",system:"Система",noDraw:"Жеребьёвка ещё не проведена",participantsT:"Участники",clubOpt:"Клуб (необязательно)",club:"Клуб",repNote:"Утешительные схватки появятся, когда будут известны результаты основной сетки.",doubleNote:"Сетка проигравших заполняется по ходу турнира.",poolsNote:"В плей-офф выходят двое лучших из каждой группы.",rrHint:"При 5 и менее участниках удобнее круговая система.",genders:"Пол",pickOne:"Выберите хотя бы один пол",presetNote:"Веса по правилам федераций. Перед турниром сверьте с регламентом.",events:"Турниры",my:"Мои заявки",org:"Кабинет организатора",admin:"Админка",login:"Войти",signup:"Регистрация",logout:"Выйти",
+ru:{myProfile:"Мой профиль",editProfile:"Редактировать профиль",birth:"Дата рождения",beltL:"Пояс",country:"Страна",weightL:"Вес, кг",bio:"О себе",phone:"Телефон",saveProfile:"Сохранить профиль",profileSaved:"Профиль сохранён",beltDown:"Пояс нельзя понизить — только повысить",ageY:"лет",st_events:"Турниры",st_matches:"Схватки",st_wins:"Победы",st_losses:"Поражения",st_rate:"% побед",winTypes:"Победы по способу",medals:"Медали",compHistory:"История выступлений",upcoming:"Предстоящие турниры",beltHistory:"История поясов",opponent:"Соперник",result:"Результат",res_w:"Победа",res_l:"Поражение",method:"Способ",noMatches:"Схваток пока нет",publicProfile:"Публичный профиль",fillProfile:"Заполните профиль: дата рождения, пол и пояс — и регистрация займёт пару кликов",goProfile:"Заполнить профиль",m_submission:"Сабмишн / болевой",m_points:"По очкам",m_advantages:"По адвантажам",m_penalties:"По штрафам",m_referee:"Решение судей",m_dq:"Дисквалификация",m_walkover:"Неявка соперника",m_golden:"Golden score",m_ippon:"Иппон",m_fall:"Туше",m_tech:"Явное преимущество",m_total:"Чистая победа",m_senshu:"Сэнсю",entries:"Дисциплины",entriesHint:"Создайте дисциплину один раз — категории по возрасту, полу, поясу и весу появятся сами, когда атлеты начнут регистрироваться.",addEntry:"Добавить дисциплину",entryName:"Название",entryNamePh:"Gi / No-Gi / Кумите",ageGroups:"Возрастные группы",openAllowed:"Разрешить абсолютную категорию",entryAdded:"Дисциплина добавлена",regEntry:"Дисциплина",yourAgeGroup:"Возрастная группа",yourBelt:"Ваш пояс",yourWeight:"Ваш вес, кг",weightClass:"Весовая категория",alsoOpen:"Также заявиться в абсолютку",notEligible:"Для вашего возраста и пола нет подходящей группы в этой дисциплине",beltNotAllowed:"Ваш пояс не предусмотрен в этой дисциплине",setResult:"Результат схватки",winnerPick:"Кто победил?",scoreL:"Счёт",saveResult:"Сохранить результат",resultSaved:"Результат сохранён",podium:"Призёры",belt_grey:"Серый",belt_yellow:"Жёлтый",belt_orange:"Оранжевый",belt_green:"Зелёный",pts:"очки",advS:"адв",penS:"штр",anyBelt:"любой",round:"Круг",fromPreset:"Категории по шаблону федерации",ageGroup:"Возрастная группа",belts:"Пояса",withOpen:"+ абсолютная категория",createN:"Создать категории",createdN:"Создано категорий",customDiv:"Своя категория",belt_white:"Белый",belt_blue:"Синий",belt_purple:"Фиолетовый",belt_brown:"Коричневый",belt_black:"Чёрный",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпийская, две бронзы (IBJJF)",b_repechage_judo:"С утешительными (IJF)",b_repechage_full:"С утешительными (UWW / FIAS / WKF)",b_pools:"Группы + плей-офф",b_best_of_3:"До двух побед (2 участника)",draw:"Жеребьёвка",redraw:"Перетянуть жребий",bracketBtn:"Сетка",noConfirmed:"Нет подтверждённых участников",drawDone:"Жеребьёвка проведена",redrawQ:"Нажмите ещё раз — текущая сетка будет удалена",final:"Финал",bronzeM:"За 3-е место",pool:"Группа",bye:"проход",bout:"Схватка",system:"Система",noDraw:"Жеребьёвка ещё не проведена",participantsT:"Участники",clubOpt:"Клуб (необязательно)",club:"Клуб",repNote:"Утешительные схватки появятся, когда будут известны результаты основной сетки.",doubleNote:"Сетка проигравших заполняется по ходу турнира.",poolsNote:"В плей-офф выходят двое лучших из каждой группы.",rrHint:"При 5 и менее участниках удобнее круговая система.",genders:"Пол",pickOne:"Выберите хотя бы один пол",presetNote:"Веса по правилам федераций. Перед турниром сверьте с регламентом.",events:"Турниры",my:"Мои заявки",org:"Кабинет организатора",admin:"Админка",login:"Войти",signup:"Регистрация",logout:"Выйти",
 eventsH:"Турниры",eventsSub:"Открытые и ближайшие соревнования",noEvents:"Пока нет открытых турниров",
 email:"Email",password:"Пароль",name:"Имя и фамилия",iam:"Я —",r_athlete:"Атлет",r_coach:"Тренер",r_organizer:"Организатор",r_admin:"Админ",
 loginH:"Вход",signupH:"Регистрация",noAcc:"Нет аккаунта?",haveAcc:"Уже есть аккаунт?",forgot:"Забыли пароль?",resetSent:"Ссылка для сброса пароля отправлена на почту",
@@ -151,7 +171,7 @@ publicPage:"Публичная страница",copyLink:"Скопироват�
 adminH:"Админка",users:"Пользователи",role:"Роль",add:"Начислить",note:"Комментарий (напр. Kaspi 45 000 ₸)",qty:"Кол-во",
 addedT:"Кредиты начислены",roleT:"Роль изменена",onlyAdmin:"Только для администратора",search:"Поиск по имени или email",
 needLogin:"Войдите, чтобы продолжить",error:"Ошибка",back:"← Назад",deleteDivQ:"Удалить категорию? Все заявки в ней тоже удалятся.",yes:"Да, удалить",no:"Нет"},
-kz:{round:"Айналым",fromPreset:"Федерация үлгісі бойынша санаттар",ageGroup:"Жас тобы",belts:"Белбеулер",withOpen:"+ абсолюттік санат",createN:"Санаттарды құру",createdN:"Құрылған санаттар",customDiv:"Өз санатым",belt_white:"Ақ",belt_blue:"Көк",belt_purple:"Күлгін",belt_brown:"Қоңыр",belt_black:"Қара",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпиадалық, екі қола (IBJJF)",b_repechage_judo:"Жұбаныш белдесулерімен (IJF)",b_repechage_full:"Жұбаныш белдесулерімен (UWW / FIAS / WKF)",b_pools:"Топтар + плей-офф",b_best_of_3:"Екі жеңіске дейін (2 қатысушы)",draw:"Жеребе",redraw:"Жеребені қайта тарту",bracketBtn:"Тор",noConfirmed:"Расталған қатысушылар жоқ",drawDone:"Жеребе өткізілді",redrawQ:"Тағы басыңыз — қазіргі тор жойылады",final:"Финал",bronzeM:"3-орын үшін",pool:"Топ",bye:"өту",bout:"Белдесу",system:"Жүйе",noDraw:"Жеребе әлі өткізілмеген",participantsT:"Қатысушылар",clubOpt:"Клуб (міндетті емес)",club:"Клуб",repNote:"Жұбаныш белдесулері негізгі тордың нәтижелері белгілі болғанда пайда болады.",doubleNote:"Жеңілгендер торы турнир барысында толтырылады.",poolsNote:"Плей-оффқа әр топтың үздік екеуі шығады.",rrHint:"5 немесе одан аз қатысушыда айналмалы жүйе ыңғайлы.",genders:"Жынысы",pickOne:"Кемінде бір жынысты таңдаңыз",presetNote:"Салмақтар федерация ережелері бойынша. Турнир алдында регламентпен салыстырыңыз.",events:"Турнирлер",my:"Менің өтінімдерім",org:"Ұйымдастырушы кабинеті",admin:"Әкімші",login:"Кіру",signup:"Тіркелу",logout:"Шығу",
+kz:{myProfile:"Менің профилім",editProfile:"Профильді өңдеу",birth:"Туған күні",beltL:"Белбеу",country:"Ел",weightL:"Салмақ, кг",bio:"Өзім туралы",phone:"Телефон",saveProfile:"Профильді сақтау",profileSaved:"Профиль сақталды",beltDown:"Белбеуді төмендетуге болмайды — тек көтеруге",ageY:"жас",st_events:"Турнирлер",st_matches:"Белдесулер",st_wins:"Жеңістер",st_losses:"Жеңілістер",st_rate:"Жеңіс %",winTypes:"Жеңіс тәсілдері",medals:"Медальдар",compHistory:"Сайыстар тарихы",upcoming:"Алдағы турнирлер",beltHistory:"Белбеулер тарихы",opponent:"Қарсылас",result:"Нәтиже",res_w:"Жеңіс",res_l:"Жеңіліс",method:"Тәсіл",noMatches:"Әзірге белдесулер жоқ",publicProfile:"Ашық профиль",fillProfile:"Профильді толтырыңыз: туған күні, жынысы және белбеуі — тіркелу бірнеше рет басумен өтеді",goProfile:"Профильді толтыру",m_submission:"Сабмишн / ауыртпалық",m_points:"Ұпай бойынша",m_advantages:"Адвантаж бойынша",m_penalties:"Айыппұл бойынша",m_referee:"Төрешілер шешімі",m_dq:"Дисквалификация",m_walkover:"Қарсылас келмеді",m_golden:"Golden score",m_ippon:"Иппон",m_fall:"Туше",m_tech:"Айқын басымдық",m_total:"Таза жеңіс",m_senshu:"Сэнсю",entries:"Пәндер",entriesHint:"Пәнді бір рет құрыңыз — жас, жыныс, белбеу және салмақ бойынша санаттар спортшылар тіркелген сайын өздігінен пайда болады.",addEntry:"Пән қосу",entryName:"Атауы",entryNamePh:"Gi / No-Gi / Кумите",ageGroups:"Жас топтары",openAllowed:"Абсолюттік санатқа рұқсат беру",entryAdded:"Пән қосылды",regEntry:"Пән",yourAgeGroup:"Жас тобы",yourBelt:"Сіздің белбеуіңіз",yourWeight:"Сіздің салмағыңыз, кг",weightClass:"Салмақ санаты",alsoOpen:"Абсолютке де өтінім беру",notEligible:"Бұл пәнде сіздің жасыңыз бен жынысыңызға сай топ жоқ",beltNotAllowed:"Сіздің белбеуіңіз бұл пәнде қарастырылмаған",setResult:"Белдесу нәтижесі",winnerPick:"Кім жеңді?",scoreL:"Есеп",saveResult:"Нәтижені сақтау",resultSaved:"Нәтиже сақталды",podium:"Жүлдегерлер",belt_grey:"Сұр",belt_yellow:"Сары",belt_orange:"Қызғылт сары",belt_green:"Жасыл",pts:"ұпай",advS:"адв",penS:"айып",anyBelt:"кез келген",round:"Айналым",fromPreset:"Федерация үлгісі бойынша санаттар",ageGroup:"Жас тобы",belts:"Белбеулер",withOpen:"+ абсолюттік санат",createN:"Санаттарды құру",createdN:"Құрылған санаттар",customDiv:"Өз санатым",belt_white:"Ақ",belt_blue:"Көк",belt_purple:"Күлгін",belt_brown:"Қоңыр",belt_black:"Қара",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпиадалық, екі қола (IBJJF)",b_repechage_judo:"Жұбаныш белдесулерімен (IJF)",b_repechage_full:"Жұбаныш белдесулерімен (UWW / FIAS / WKF)",b_pools:"Топтар + плей-офф",b_best_of_3:"Екі жеңіске дейін (2 қатысушы)",draw:"Жеребе",redraw:"Жеребені қайта тарту",bracketBtn:"Тор",noConfirmed:"Расталған қатысушылар жоқ",drawDone:"Жеребе өткізілді",redrawQ:"Тағы басыңыз — қазіргі тор жойылады",final:"Финал",bronzeM:"3-орын үшін",pool:"Топ",bye:"өту",bout:"Белдесу",system:"Жүйе",noDraw:"Жеребе әлі өткізілмеген",participantsT:"Қатысушылар",clubOpt:"Клуб (міндетті емес)",club:"Клуб",repNote:"Жұбаныш белдесулері негізгі тордың нәтижелері белгілі болғанда пайда болады.",doubleNote:"Жеңілгендер торы турнир барысында толтырылады.",poolsNote:"Плей-оффқа әр топтың үздік екеуі шығады.",rrHint:"5 немесе одан аз қатысушыда айналмалы жүйе ыңғайлы.",genders:"Жынысы",pickOne:"Кемінде бір жынысты таңдаңыз",presetNote:"Салмақтар федерация ережелері бойынша. Турнир алдында регламентпен салыстырыңыз.",events:"Турнирлер",my:"Менің өтінімдерім",org:"Ұйымдастырушы кабинеті",admin:"Әкімші",login:"Кіру",signup:"Тіркелу",logout:"Шығу",
 eventsH:"Турнирлер",eventsSub:"Ашық және жақын арадағы жарыстар",noEvents:"Әзірге ашық турнирлер жоқ",
 email:"Email",password:"Құпиясөз",name:"Аты-жөні",iam:"Мен —",r_athlete:"Спортшы",r_coach:"Жаттықтырушы",r_organizer:"Ұйымдастырушы",r_admin:"Әкімші",
 loginH:"Кіру",signupH:"Тіркелу",noAcc:"Аккаунт жоқ па?",haveAcc:"Аккаунт бар ма?",forgot:"Құпиясөзді ұмыттыңыз ба?",resetSent:"Құпиясөзді қалпына келтіру сілтемесі поштаға жіберілді",
@@ -179,7 +199,7 @@ publicPage:"Ашық бет",copyLink:"Сілтемені көшіру",copied:"
 adminH:"Әкімші",users:"Пайдаланушылар",role:"Рөлі",add:"Есептеу",note:"Түсініктеме (мыс. Kaspi 45 000 ₸)",qty:"Саны",
 addedT:"Кредиттер есептелді",roleT:"Рөл өзгертілді",onlyAdmin:"Тек әкімші үшін",search:"Аты немесе email бойынша іздеу",
 needLogin:"Жалғастыру үшін кіріңіз",error:"Қате",back:"← Артқа",deleteDivQ:"Санатты жою керек пе? Ондағы барлық өтінімдер де жойылады.",yes:"Иә, жою",no:"Жоқ"},
-en:{round:"Round",fromPreset:"Divisions from federation template",ageGroup:"Age group",belts:"Belts",withOpen:"+ open class",createN:"Create divisions",createdN:"Divisions created",customDiv:"Custom division",belt_white:"White",belt_blue:"Blue",belt_purple:"Purple",belt_brown:"Brown",belt_black:"Black",openCl:"Open class",kg:"kg",b_single_2bronze:"Single elimination, two bronzes (IBJJF)",b_repechage_judo:"Repechage (IJF)",b_repechage_full:"Repechage (UWW / FIAS / WKF)",b_pools:"Pools + playoff",b_best_of_3:"Best of three (2 athletes)",draw:"Draw",redraw:"Redraw",bracketBtn:"Bracket",noConfirmed:"No confirmed athletes",drawDone:"Draw complete",redrawQ:"Click again — the current bracket will be deleted",final:"Final",bronzeM:"Bronze match",pool:"Pool",bye:"bye",bout:"Bout",system:"System",noDraw:"Draw not done yet",participantsT:"Athletes",clubOpt:"Club (optional)",club:"Club",repNote:"Repechage bouts appear once main bracket results are in.",doubleNote:"The losers bracket fills in as the event progresses.",poolsNote:"The top two of each pool go to the playoff.",rrHint:"With 5 or fewer athletes, round robin works better.",genders:"Gender",pickOne:"Pick at least one gender",presetNote:"Weights follow federation rules. Check the regulations before the event.",events:"Events",my:"My entries",org:"Organizer dashboard",admin:"Admin",login:"Log in",signup:"Sign up",logout:"Log out",
+en:{myProfile:"My profile",editProfile:"Edit profile",birth:"Date of birth",beltL:"Belt",country:"Country",weightL:"Weight, kg",bio:"About",phone:"Phone",saveProfile:"Save profile",profileSaved:"Profile saved",beltDown:"A belt can only be raised, not lowered",ageY:"y.o.",st_events:"Events",st_matches:"Matches",st_wins:"Wins",st_losses:"Losses",st_rate:"Win %",winTypes:"Wins by method",medals:"Medals",compHistory:"Competition history",upcoming:"Upcoming events",beltHistory:"Belt history",opponent:"Opponent",result:"Result",res_w:"Win",res_l:"Loss",method:"Method",noMatches:"No matches yet",publicProfile:"Public profile",fillProfile:"Fill in your profile — date of birth, gender and belt — and registering takes a couple of clicks",goProfile:"Fill in profile",m_submission:"Submission",m_points:"Points",m_advantages:"Advantages",m_penalties:"Penalties",m_referee:"Referee decision",m_dq:"Disqualification",m_walkover:"Walkover",m_golden:"Golden score",m_ippon:"Ippon",m_fall:"Fall",m_tech:"Technical superiority",m_total:"Total victory",m_senshu:"Senshu",entries:"Disciplines",entriesHint:"Create a discipline once — divisions by age, gender, belt and weight appear automatically as athletes register.",addEntry:"Add discipline",entryName:"Name",entryNamePh:"Gi / No-Gi / Kumite",ageGroups:"Age groups",openAllowed:"Allow open class",entryAdded:"Discipline added",regEntry:"Discipline",yourAgeGroup:"Age group",yourBelt:"Your belt",yourWeight:"Your weight, kg",weightClass:"Weight class",alsoOpen:"Also enter the open class",notEligible:"No age group in this discipline fits your age and gender",beltNotAllowed:"Your belt is not included in this discipline",setResult:"Match result",winnerPick:"Who won?",scoreL:"Score",saveResult:"Save result",resultSaved:"Result saved",podium:"Podium",belt_grey:"Grey",belt_yellow:"Yellow",belt_orange:"Orange",belt_green:"Green",pts:"pts",advS:"adv",penS:"pen",anyBelt:"any",round:"Round",fromPreset:"Divisions from federation template",ageGroup:"Age group",belts:"Belts",withOpen:"+ open class",createN:"Create divisions",createdN:"Divisions created",customDiv:"Custom division",belt_white:"White",belt_blue:"Blue",belt_purple:"Purple",belt_brown:"Brown",belt_black:"Black",openCl:"Open class",kg:"kg",b_single_2bronze:"Single elimination, two bronzes (IBJJF)",b_repechage_judo:"Repechage (IJF)",b_repechage_full:"Repechage (UWW / FIAS / WKF)",b_pools:"Pools + playoff",b_best_of_3:"Best of three (2 athletes)",draw:"Draw",redraw:"Redraw",bracketBtn:"Bracket",noConfirmed:"No confirmed athletes",drawDone:"Draw complete",redrawQ:"Click again — the current bracket will be deleted",final:"Final",bronzeM:"Bronze match",pool:"Pool",bye:"bye",bout:"Bout",system:"System",noDraw:"Draw not done yet",participantsT:"Athletes",clubOpt:"Club (optional)",club:"Club",repNote:"Repechage bouts appear once main bracket results are in.",doubleNote:"The losers bracket fills in as the event progresses.",poolsNote:"The top two of each pool go to the playoff.",rrHint:"With 5 or fewer athletes, round robin works better.",genders:"Gender",pickOne:"Pick at least one gender",presetNote:"Weights follow federation rules. Check the regulations before the event.",events:"Events",my:"My entries",org:"Organizer dashboard",admin:"Admin",login:"Log in",signup:"Sign up",logout:"Log out",
 eventsH:"Events",eventsSub:"Open and upcoming competitions",noEvents:"No open events yet",
 email:"Email",password:"Password",name:"Full name",iam:"I am a",r_athlete:"Athlete",r_coach:"Coach",r_organizer:"Organizer",r_admin:"Admin",
 loginH:"Log in",signupH:"Create account",noAcc:"No account?",haveAcc:"Already have an account?",forgot:"Forgot password?",resetSent:"Password reset link sent to your email",
@@ -208,7 +228,7 @@ adminH:"Admin",users:"Users",role:"Role",add:"Add",note:"Note (e.g. Kaspi 45,000
 addedT:"Credits added",roleT:"Role updated",onlyAdmin:"Admins only",search:"Search by name or email",
 needLogin:"Log in to continue",error:"Error",back:"← Back",deleteDivQ:"Delete this division? All its entries will be deleted too.",yes:"Yes, delete",no:"No"}
 };
-const SPORT={bjj:{ru:"Джиу-джитсу (BJJ)",kz:"Джиу-джитсу (BJJ)",en:"Brazilian Jiu-Jitsu"},newaza:{ru:"Джиу-джитсу не-ваза (JJIF)",kz:"Джиу-джитсу не-ваза (JJIF)",en:"Ju-Jitsu Ne-Waza (JJIF)"},judo:{ru:"Дзюдо",kz:"Дзюдо",en:"Judo"},free:{ru:"Вольная борьба",kz:"Еркін күрес",en:"Freestyle wrestling"},greco:{ru:"Греко-римская борьба",kz:"Грек-рим күресі",en:"Greco-Roman wrestling"},sambo:{ru:"Самбо",kz:"Самбо",en:"Sambo"},karate:{ru:"Каратэ",kz:"Каратэ",en:"Karate"}};
+const SPORT={bjj:{ru:"Джиу-джитсу (JJIF)",kz:"Джиу-джитсу (JJIF)",en:"Jiu-Jitsu (JJIF)"},newaza:{ru:"Джиу-джитсу не-ваза (JJIF)",kz:"Джиу-джитсу не-ваза (JJIF)",en:"Ju-Jitsu Ne-Waza (JJIF)"},judo:{ru:"Дзюдо",kz:"Дзюдо",en:"Judo"},free:{ru:"Вольная борьба",kz:"Еркін күрес",en:"Freestyle wrestling"},greco:{ru:"Греко-римская борьба",kz:"Грек-рим күресі",en:"Greco-Roman wrestling"},sambo:{ru:"Самбо",kz:"Самбо",en:"Sambo"},karate:{ru:"Каратэ",kz:"Каратэ",en:"Karate"}};
 const MATCH_TIME={bjj:300,newaza:360,judo:240,free:180,greco:180,sambo:300,karate:180};
 let L="ru";try{L=localStorage.getItem("jekpe-lang")||"ru"}catch(e){}
 const t=k=>TX[L][k]??TX.ru[k]??k;
@@ -218,7 +238,7 @@ const money=n=>(+n||0).toLocaleString("ru-RU").replace(/,/g," ")+" ₸";
 const $=id=>document.getElementById(id);
 function toast(s){const el=$("toast");el.textContent=s;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2600)}
 function errText(e){const m=(e&&(e.message||e.error_description))||String(e);
- if(m.includes("NO_CREDITS"))return t("noCredits");if(m.includes("REG_CLOSED"))return t("regClosed");
+ if(m.includes("NO_CREDITS"))return t("noCredits");if(m.includes("BELT_DOWN"))return t("beltDown");if(m.includes("REG_CLOSED"))return t("regClosed");
  if(m.includes("duplicate key")||e.code==="23505")return t("already");return t("error")+": "+m}
 
 /* ================= Supabase ================= */
@@ -244,7 +264,7 @@ function chrome(){
  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===L));
  const cur=(location.hash.slice(1)||"events").split("-")[0];
  const items=[["events",t("events")]];
- if(me)items.push(["my",t("my")]);
+ if(me)items.push(["my",t("my")],["profile",t("myProfile")]);
  if(isOrg())items.push(["org",t("org")]);
  if(me&&me.role==="admin")items.push(["admin",t("admin")]);
  $("links").innerHTML=items.map(([h,l])=>`<a href="#${h}" class="${cur===h||(h==="org"&&cur==="manage")||(h==="events"&&cur==="event")?"on":""}">${l}</a>`).join("");
@@ -268,6 +288,8 @@ async function route(){
   if(v==="reset")return viewReset();
   if(v==="event")return viewEvent(id);
   if(v==="bracket")return viewBracket(id);
+  if(v==="athlete")return viewAthlete(id);
+  if(v==="profile"){if(!need())return;return viewProfile()}
   if(v==="my"){if(!need())return;return viewMy()}
   if(v==="org"){if(!need())return;return viewOrg()}
   if(v==="manage"){if(!need())return;return viewManage(id)}
@@ -347,13 +369,15 @@ async function viewEvent(id){
   ${e.description?`<p style="margin-top:18px;white-space:pre-line;color:var(--muted)">${esc(e.description)}</p>`:""}
   ${e.payment_info?`<div class="msg msg-info" style="margin:18px 0 0"><b style="color:var(--text)">${t("payInfo")}:</b> ${esc(e.payment_info)}</div>`:""}
  </div>
- ${canApply?`<div class="card"><h2>${t("apply")}</h2><div id="m"></div>
+ ${e.status==="open"&&(e.entries||[]).length?`<div class="card"><h2>${t("apply")}</h2><div id="m"></div><div id="smartReg"></div></div>`:""}
+ ${canApply&&!(e.entries||[]).length?`<div class="card"><h2>${t("apply")}</h2><div id="m"></div>
   ${me?`<div class="toolbar"><select id="dsel" class="btn btn-line" style="min-width:240px;max-width:100%"><option value="">${t("chooseDiv")}</option>${divs.filter(d=>!mine.has(d.id)).map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join("")}</select><input id="clubIn" class="btn btn-line" placeholder="${t("clubOpt")}" style="text-align:left;min-width:180px"><button class="btn btn-red" id="applyB">${t("apply")}</button></div>`
   :`<a class="btn btn-red" href="#login" onclick="try{sessionStorage.setItem('jekpe-after','#event-${e.id}')}catch(x){}">${t("loginToApply")}</a>`}</div>`:""}
  <h2 style="margin-top:28px">${t("divisions")}</h2>
  ${(divs||[]).length?divs.map(d=>{const list=by[d.id]||[];return`<div class="div-box"><h4><span>${esc(d.name)}</span><span class="meta">${list.length} ${t("participants")} · <a href="#bracket-${d.id}" style="color:var(--accent2)">${t("bracketBtn")} →</a></span></h4>
-  ${list.length?`<div class="names">${list.map(r=>`<span class="${r.status==="pending"?"p":""}">${esc(r.profiles?.full_name||"—")}</span>`).join("")}</div>`:""}</div>`}).join("")
+  ${list.length?`<div class="names">${list.map(r=>`<a href="#athlete-${r.athlete_id}"><span class="${r.status==="pending"?"p":""}">${esc(r.profiles?.full_name||"—")}</span></a>`).join("")}</div>`:""}</div>`}).join("")
   :`<div class="card empty">${t("noDiv")}</div>`}`;
+ if($("smartReg"))smartReg(e);
  const b=$("applyB");if(b)b.onclick=async()=>{const div=$("dsel").value;if(!div)return $("dsel").focus();b.disabled=true;
   const {error}=await sb.from("registrations").insert({event_id:e.id,division_id:div,athlete_id:me.id,club_name:$("clubIn").value.trim()||null});
   b.disabled=false;if(error)return $("m").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("applied"));viewEvent(id)};
@@ -386,7 +410,7 @@ async function viewOrg(){
  <div class="card"><div class="toolbar" style="justify-content:space-between;margin-bottom:14px"><h2 style="margin:0">${t("myEvents")}</h2><button class="btn btn-red btn-sm" onclick="$('newEv').style.display=$('newEv').style.display==='block'?'none':'block'">+ ${t("newEvent")}</button></div>
  <div id="newEv" style="display:none;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:18px;background:var(--bg2)"><div id="m"></div>
   <form id="f"><div class="row"><div class="field" style="grid-column:span 2"><label>${t("title")}</label><input name="title" required></div>
-  <div class="field"><label>${t("sport")}</label><select name="sport">${Object.keys(SPORT).map(k=>`<option value="${k}">${SPORT[k][L]}</option>`).join("")}</select></div></div>
+  <div class="field"><label>${t("sport")}</label><select name="sport">${Object.keys(SPORT).filter(k=>k!=="newaza").map(k=>`<option value="${k}">${SPORT[k][L]}</option>`).join("")}</select></div></div>
   <div class="row"><div class="field"><label>${t("date")}</label><input type="date" name="starts_on" required></div><div class="field"><label>${t("deadline")}</label><input type="date" name="reg_deadline"></div>
   <div class="field"><label>${t("city")}</label><input name="city"></div><div class="field"><label>${t("venue")}</label><input name="venue"></div></div>
   <div class="row"><div class="field"><label>${t("fee")}, ₸</label><input type="number" name="entry_fee" min="0" step="500"></div><div class="field"><label>${t("mats")}</label><input type="number" name="mats_count" min="1" value="1"></div>
@@ -432,7 +456,7 @@ async function viewManage(id){
   <a class="btn btn-line btn-sm" href="#bracket-${d.id}">${t("bracketBtn")}</a>
   <button class="btn btn-ghost btn-sm" onclick="delDiv('${d.id}','${id}',this)">${t("del")}</button></span></h4>
   ${nc>0&&nc<=5&&!["round_robin","best_of_3"].includes(d.bracket)?`<div class="meta" style="margin-top:6px">💡 ${t("rrHint")}</div>`:""}</div>`}).join("")||`<div class="meta" style="margin-bottom:14px">${t("noDiv")}</div>`}
- ${presetPanel(e)}
+ ${entriesPanel(e)}
  <div style="border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:16px;background:var(--bg2)"><h2 style="font-size:16px">+ ${t("customDiv")}</h2><div id="m"></div>
  <form id="df"><div class="row"><div class="field" style="grid-column:span 2"><label>${t("divName")}</label><input name="name" required placeholder="Adult Male −77 kg"></div>
   <div class="field"><label>${t("gender")}</label><select name="gender"><option value="m">${t("g_m")}</option><option value="f">${t("g_f")}</option><option value="mixed">${t("g_mixed")}</option></select></div></div>
@@ -442,7 +466,7 @@ async function viewManage(id){
   <div class="field"><label>${t("bracket")}</label><select name="bracket">${JEKPE_BRACKETS.map(b=>`<option value="${b}" ${(JEKPE_PRESETS[e.sport]||{}).bracket===b?"selected":""}>${t("b_"+b)}</option>`).join("")}</select></div></div>
  <button class="btn btn-red">${t("addDiv")}</button></form></div></div>`;
  $("cp").onclick=async()=>{try{await navigator.clipboard.writeText(pub);toast(t("copied"))}catch(x){toast(pub)}};
- bindPreset(e,id);
+ bindEntries(e,id);
  $("df").onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));
   ["age_min","age_max","weight_max","match_time"].forEach(k=>d[k]=d[k]===""?null:+d[k]);if(!d.belt)d.belt=null;d.event_id=id;
   const {error}=await sb.from("divisions").insert(d);if(error)return $("m").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("savedT"));viewManage(id)};
@@ -552,11 +576,15 @@ async function doDraw(divId,ev,btn,exists){
 async function viewBracket(divId){
  const {data:d,error}=await sb.from("divisions").select("*, events(id,title,sport,organizer_id)").eq("id",divId).single();if(error)throw error;
  const [{data:ms},{data:regs}]=await Promise.all([sb.from("matches").select("*").eq("division_id",divId).order("round").order("position"),
-  sb.from("registrations").select("id,status,club_name,profiles(full_name)").eq("division_id",divId).eq("status","confirmed")]);
+  sb.from("registrations").select("id,athlete_id,status,club_name,place,profiles(full_name)").eq("division_id",divId).eq("status","confirmed")]);
  const nm={};(regs||[]).forEach(r=>nm[r.id]=r);
  const canDraw=me&&(me.id===d.events.organizer_id||me.role==="admin");
- const line=(id,cls,w,emptyTxt)=>id?`<div class="${cls} ${w===id?"w":w?"l":""}"><span>${esc(nm[id]?.profiles?.full_name||"—")}${nm[id]?.club_name?` <small>${esc(nm[id].club_name)}</small>`:""}</span></div>`:`<div class="${cls} e"><span>${emptyTxt}</span></div>`;
- const card=m=>`<div class="bm">${line(m.red_id,"r",m.winner_id,m.round===1&&m.part==="main"&&m.win_reason==="bye"?t("bye"):"…")}${line(m.blue_id,"b",m.winner_id,m.round===1&&m.part==="main"&&m.win_reason==="bye"?t("bye"):"…")}</div>`;
+ const scoreTxt=s=>s&&(s.pts!=null||s.adv!=null)?`<small>${s.pts??0}·${s.adv??0}·${s.pen??0}</small>`:"";
+ const line=(id,cls,w,emptyTxt,sc)=>id?`<div class="${cls} ${w===id?"w":w?"l":""}"><span>${esc(nm[id]?.profiles?.full_name||"—")}${nm[id]?.club_name?` <small>${esc(nm[id].club_name)}</small>`:""}</span>${scoreTxt(sc)}</div>`:`<div class="${cls} e"><span>${emptyTxt}</span></div>`;
+ window._bm={};(ms||[]).forEach(m=>_bm[m.id]=m);window._nm=nm;window._bdiv=d;
+ const card=m=>{const bye=m.round===1&&m.part==="main"&&m.win_reason==="bye";const can=canDraw&&m.red_id&&m.blue_id&&!bye;
+  return `<div class="bm ${can?"click":""}" ${can?`onclick="openResult('${m.id}')"`:""}>${line(m.red_id,"r",m.winner_id,bye?t("bye"):"…",m.red_score)}${line(m.blue_id,"b",m.winner_id,bye?t("bye"):"…",m.blue_score)}${m.status==="done"&&!bye&&m.win_reason?`<div style="font-size:11px;color:var(--muted);justify-content:center">${esc(t("m_"+m.win_reason))}</div>`:""}</div>`};
+ const pod=(regs||[]).filter(r=>r.place&&r.place<=3).sort((a,b)=>a.place-b.place);
  const parts={};(ms||[]).forEach(m=>(parts[m.part]=parts[m.part]||[]).push(m));
  let html="";
  if(parts.main){const main=parts.main,R=Math.max(...main.map(m=>m.round));
@@ -564,15 +592,174 @@ async function viewBracket(divId){
   html+=`<div class="card"><div class="bracket">${Array.from({length:R},(_,i)=>i+1).map(r=>`<div class="bcol"><h5>${label(r)}</h5>${main.filter(m=>m.round===r).map(card).join("")}</div>`).join("")}</div>
   ${parts.bronze?`<h2 style="font-size:15px;margin-top:10px">${t("bronzeM")}</h2><div style="max-width:240px">${parts.bronze.map(card).join("")}</div>`:""}</div>`}
  Object.keys(parts).filter(k=>k.startsWith("pool")).sort().forEach(k=>{const pm=parts[k],ids=[...new Set(pm.flatMap(m=>[m.red_id,m.blue_id]).filter(Boolean))],R=Math.max(...pm.map(m=>m.round));
-  html+=`<div class="card"><h2>${k==="pool"?t("b_round_robin"):t("pool")+" "+k.slice(5)}</h2><div class="names" style="margin-bottom:16px">${ids.map(i=>`<span>${esc(nm[i]?.profiles?.full_name||"—")}</span>`).join("")}</div>
+  html+=`<div class="card"><h2>${k==="pool"?t("b_round_robin"):t("pool")+" "+k.slice(5)}</h2><div class="names" style="margin-bottom:16px">${ids.map(i=>`<a href="#athlete-${nm[i]?.athlete_id}"><span>${esc(nm[i]?.profiles?.full_name||"—")}</span></a>`).join("")}</div>
   <div class="bracket">${Array.from({length:R},(_,i)=>i+1).map(r=>`<div class="bcol" style="justify-content:flex-start"><h5>${t("round")} ${r}</h5>${pm.filter(m=>m.round===r).map(card).join("")}</div>`).join("")}</div></div>`});
  const note={repechage_judo:"repNote",repechage_full:"repNote",double:"doubleNote",pools:"poolsNote"}[d.bracket];
  $("view").innerHTML=`<a href="#event-${d.events.id}" class="meta">${t("back")}</a>
  <div style="margin:14px 0 6px"><span class="tag">${esc(SPORT[d.events.sport][L])}</span></div>
  <h1>${esc(d.name)}</h1><p class="sub">${esc(d.events.title)} · ${t("system")}: ${t("b_"+d.bracket)} · ${(regs||[]).length} ${t("participants")}</p>
  ${canDraw?`<div class="toolbar" style="margin-bottom:18px"><button class="btn ${ms&&ms.length?"btn-line":"btn-red"}" onclick="doDraw('${d.id}','${d.events.id}',this,${ms&&ms.length?1:0})">${ms&&ms.length?t("redraw"):t("draw")}</button><a class="btn btn-line" href="#manage-${d.events.id}">${t("manage")}</a></div>`:""}
+ ${pod.length?`<div class="card"><h2>${t("podium")}</h2><div class="podium">${pod.map(r=>`<a href="#athlete-${r.athlete_id}"><div>${["","🥇","🥈","🥉"][r.place]} ${esc(r.profiles?.full_name)}</div></a>`).join("")}</div></div>`:""}
  ${note&&ms&&ms.length?`<div class="msg msg-info">${t(note)}</div>`:""}
  ${html||`<div class="card empty">${t("noDraw")}${(regs||[]).length?`<div class="names" style="justify-content:center;margin-top:14px">${regs.map(r=>`<span>${esc(r.profiles?.full_name)}</span>`).join("")}</div>`:""}</div>`}`;
+}
+
+
+/* ================= belts ================= */
+const beltBadge=b=>b?`<span class="belt" style="background:${JEKPE_BELT_COLORS[b]}"></span>${t("belt_"+b)}`:"—";
+
+/* ================= entries (дисциплины) ================= */
+function entriesPanel(e){
+ const P=JEKPE_PRESETS[e.sport];if(!P)return"";
+ const allBelts=JEKPE_BELTS.filter(b=>(P.belts||[]).includes(b)||P.groups.some(g=>(g.belts||[]).includes(b)));
+ const list=(e.entries||[]).map(en=>`<div class="entry"><div><b>${esc(en.name)}</b><div class="meta">${en.groups.map(gid=>esc((P.groups.find(g=>g.id===gid)||{label:{}}).label[L]||gid)).join(", ")}</div>
+  <div class="meta">${en.genders.map(g=>t("g_"+g)).join(", ")}${en.belts&&en.belts.length?" · "+en.belts.map(b=>t("belt_"+b)).join(", "):""}${en.open?" · "+t("openCl"):""} · ${t("b_"+en.bracket)}</div></div>
+  <button class="btn btn-ghost btn-sm" onclick="delEntry('${e.id}','${en.id}',this)">${t("del")}</button></div>`).join("");
+ return `<div style="border:1px solid var(--accent);border-radius:12px;padding:18px;margin-top:16px;background:rgba(225,29,46,.05)"><h2 style="font-size:16px">⚡ ${t("entries")}</h2>
+ <p class="meta" style="margin:-6px 0 14px">${t("entriesHint")}</p>${list}<div id="em"></div>
+ <details ${(e.entries||[]).length?"":"open"}><summary class="btn btn-line btn-sm" style="list-style:none;cursor:pointer;margin:6px 0 12px">+ ${t("addEntry")}</summary>
+ <div class="row"><div class="field"><label>${t("entryName")}</label><input id="en_name" placeholder="${t("entryNamePh")}" value="Gi"></div>
+ <div class="field"><label>${t("bracket")}</label><select id="en_br">${JEKPE_BRACKETS.map(b=>`<option value="${b}" ${P.bracket===b?"selected":""}>${t("b_"+b)}</option>`).join("")}</select></div></div>
+ <div class="field"><label>${t("ageGroups")}</label><div class="chk">${P.groups.map((g,i)=>`<label><input type="checkbox" class="en_g" value="${g.id}" ${i===0?"checked":""}> ${esc(g.label[L])}</label>`).join("")}</div></div>
+ <div class="field"><label>${t("genders")}</label><div class="chk"><label><input type="checkbox" class="en_s" value="m" checked> ${t("g_m")}</label><label><input type="checkbox" class="en_s" value="f" checked> ${t("g_f")}</label><label><input type="checkbox" id="en_open"> ${t("openAllowed")}</label></div></div>
+ ${allBelts.length?`<div class="field"><label>${t("belts")}</label><div class="chk">${allBelts.map(b=>`<label><input type="checkbox" class="en_b" value="${b}" checked> <span class="belt" style="background:${JEKPE_BELT_COLORS[b]}"></span>${t("belt_"+b)}</label>`).join("")}</div></div>`:""}
+ <button class="btn btn-red" id="en_go">${t("addEntry")}</button></details>
+ <p class="meta" style="margin-top:10px;font-size:12px">${t("presetNote")}</p></div>`;
+}
+function bindEntries(e,id){
+ const b=$("en_go");if(!b)return;
+ b.onclick=async()=>{const vals=c=>[...document.querySelectorAll(c+":checked")].map(x=>x.value);
+  const en={id:"e"+Date.now().toString(36),name:$("en_name").value.trim()||"Gi",groups:vals(".en_g"),genders:vals(".en_s"),belts:vals(".en_b"),open:$("en_open").checked,bracket:$("en_br").value,sport:e.sport};
+  if(!en.groups.length||!en.genders.length)return $("em").innerHTML=`<div class="msg msg-err">${t("pickOne")}</div>`;
+  b.disabled=true;const {error}=await sb.from("events").update({entries:[...(e.entries||[]),en]}).eq("id",id);b.disabled=false;
+  if(error)return $("em").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("entryAdded"));viewManage(id)};
+}
+async function delEntry(evId,enId,btn){
+ if(btn.dataset.sure!=="1"){btn.dataset.sure="1";btn.textContent=t("yes");btn.classList.add("btn-red");setTimeout(()=>{btn.dataset.sure="";btn.textContent=t("del");btn.classList.remove("btn-red")},3000);return}
+ const {data:e}=await sb.from("events").select("entries").eq("id",evId).single();
+ const {error}=await sb.from("events").update({entries:(e.entries||[]).filter(x=>x.id!==enId)}).eq("id",evId);if(error)return toast(errText(error));viewManage(evId)}
+
+/* ================= smart registration ================= */
+function smartReg(e){
+ const box=$("smartReg");
+ if(!me){box.innerHTML=`<a class="btn btn-red" href="#login" onclick="try{sessionStorage.setItem('jekpe-after','#event-${e.id}')}catch(x){}">${t("loginToApply")}</a>`;return}
+ const P=JEKPE_PRESETS[e.sport]||{groups:[]};
+ const needBelt=e.entries.some(en=>en.belts&&en.belts.length);
+ if(!me.birth_date||!me.gender||(needBelt&&!me.belt)){box.innerHTML=`<div class="msg msg-info">${t("fillProfile")}</div><a class="btn btn-red" href="#profile" onclick="try{sessionStorage.setItem('jekpe-after','#event-${e.id}')}catch(x){}">${t("goProfile")}</a>`;return}
+ const ageAt=new Date(e.starts_on).getFullYear()-new Date(me.birth_date).getFullYear();
+ box.innerHTML=`<div class="row"><div class="field"><label>${t("regEntry")}</label><select id="sr_e">${e.entries.map(en=>`<option value="${en.id}">${esc(en.name)}</option>`).join("")}</select></div>
+  <div class="field"><label>${t("yourAgeGroup")}</label><select id="sr_g"></select></div></div>
+  <div class="row"><div class="field"><label>${t("yourBelt")}</label><div class="btn btn-line" style="justify-content:flex-start;width:100%">${beltBadge(me.belt)}</div></div>
+  <div class="field"><label>${t("yourWeight")}</label><input id="sr_w" type="number" step="0.1" value="${me.weight??""}"></div>
+  <div class="field"><label>${t("weightClass")}</label><select id="sr_c"></select></div></div>
+  <div class="row"><div class="field"><label>${t("clubOpt")}</label><input id="sr_club" value="${esc(me.club_name||"")}"></div></div>
+  <div class="chk" id="sr_openw" style="margin-bottom:14px"><label><input type="checkbox" id="sr_open"> ${t("alsoOpen")}</label></div>
+  <div id="sr_msg"></div><button class="btn btn-red" id="sr_go">${t("apply")}</button>`;
+ const en=()=>e.entries.find(x=>x.id===$("sr_e").value);
+ const grp=()=>P.groups.find(g=>g.id===$("sr_g").value);
+ const fillG=()=>{const E=en();const gs=P.groups.filter(g=>E.groups.includes(g.id)&&ageAt>=g.age[0]&&(g.age[1]==null||ageAt<=g.age[1])&&E.genders.includes(me.gender)&&(g[me.gender]||[]).length);
+  $("sr_g").innerHTML=gs.map(g=>`<option value="${g.id}">${esc(g.label[L])}</option>`).join("");
+  $("sr_openw").style.display=E.open?"":"none";fillC()};
+ const fillC=()=>{const g=grp(),E=en();$("sr_msg").innerHTML="";$("sr_go").disabled=false;
+  if(!g){$("sr_c").innerHTML="";$("sr_msg").innerHTML=`<div class="msg msg-err">${t("notEligible")}</div>`;$("sr_go").disabled=true;return}
+  const allowed=(E.belts&&E.belts.length)?E.belts.filter(b=>(g.belts||P.belts||[]).includes(b)):null;
+  if(allowed&&!allowed.includes(me.belt)){$("sr_msg").innerHTML=`<div class="msg msg-err">${t("beltNotAllowed")}</div>`;$("sr_go").disabled=true}
+  const ws=g[me.gender];$("sr_c").innerHTML=ws.map(w=>`<option value="${w}">${fmtW(w)}</option>`).join("");autoW()};
+ const autoW=()=>{const w=+$("sr_w").value,g=grp();if(!w||!g)return;const ws=g[me.gender];const hit=ws.find(x=>typeof x==="number"&&w<=x)??ws[ws.length-1];$("sr_c").value=String(hit)};
+ $("sr_e").onchange=fillG;$("sr_g").onchange=fillC;$("sr_w").oninput=autoW;fillG();
+ $("sr_go").onclick=async()=>{const E=en(),g=grp();if(!g)return;const raw=$("sr_c").value,w=raw.startsWith("+")?raw:+raw;
+  const belt=(E.belts&&E.belts.length)?me.belt:null;const time=typeof g.time==="object"?(g.time[me.belt]||300):g.time;
+  const base=[E.name,g.label[L].replace(/ \(.*\)$/,""),t("g_"+me.gender)];
+  const reg=(wName,wMax,keyW)=>sb.rpc("register_athlete",{p_event:e.id,p_entry:E.id,p_key:[E.id,g.id,me.gender,belt||"-",keyW].join("|"),
+   p_name:[...base,wName,belt?t("belt_"+belt):null].filter(Boolean).join(" · "),p_gender:me.gender,p_age_min:g.age[0],p_age_max:g.age[1],
+   p_weight:wMax,p_belt:belt?t("belt_"+belt):null,p_time:time,p_bracket:E.bracket,p_club:$("sr_club").value});
+  $("sr_go").disabled=true;
+  let r=await reg(fmtW(w),typeof w==="string"?null:w,String(w));
+  if(!r.error&&E.open&&$("sr_open").checked)r=await reg(t("openCl"),null,"open");
+  $("sr_go").disabled=false;
+  if(r.error)return $("sr_msg").innerHTML=`<div class="msg msg-err">${esc(errText(r.error))}</div>`;
+  const wv=+$("sr_w").value;if(wv&&wv!==me.weight)sb.from("profiles").update({weight:wv}).eq("id",me.id);
+  toast(t("applied"));viewEvent(e.id)};
+}
+
+/* ================= results ================= */
+const METHODS={bjj:["submission","points","advantages","penalties","referee","golden","dq","walkover"],newaza:["submission","points","advantages","penalties","referee","golden","dq","walkover"],
+ judo:["ippon","points","golden","penalties","dq","walkover"],free:["fall","tech","points","dq","walkover"],greco:["fall","tech","points","dq","walkover"],
+ sambo:["total","submission","points","dq","walkover"],karate:["points","senshu","referee","dq","walkover"]};
+let _res=null;
+function openResult(mid){
+ const m=_bm[mid],nm=_nm,sp=_bdiv.events.sport;_res={id:mid,w:m.winner_id||null};
+ const n=id=>esc(nm[id]?.profiles?.full_name||"—");const rs=m.red_score||{},bs=m.blue_score||{};
+ let md=$("resModal");if(!md){md=document.createElement("div");md.id="resModal";md.className="modal";md.onclick=ev=>{if(ev.target===md)md.classList.remove("show")};document.body.appendChild(md)}
+ md.innerHTML=`<div class="mbox"><h2>${t("setResult")}</h2><div class="meta">${t("winnerPick")}</div>
+  <div class="pick"><button class="r ${_res.w===m.red_id?"on":""}" data-w="${m.red_id}">${n(m.red_id)}</button><button class="b ${_res.w===m.blue_id?"on":""}" data-w="${m.blue_id}">${n(m.blue_id)}</button></div>
+  <div class="field"><label>${t("method")}</label><select id="rs_m">${(METHODS[sp]||METHODS.bjj).map(x=>`<option value="${x}" ${m.win_reason===x?"selected":""}>${t("m_"+x)}</option>`).join("")}</select></div>
+  <div class="field"><label>${t("scoreL")}</label><div class="sc"><span></span><span>${t("pts")}</span><span>${t("advS")}</span><span>${t("penS")}</span>
+   <span style="color:#f87171">●</span><input id="rs_rp" type="number" value="${rs.pts??""}"><input id="rs_ra" type="number" value="${rs.adv??""}"><input id="rs_rn" type="number" value="${rs.pen??""}">
+   <span style="color:#60a5fa">●</span><input id="rs_bp" type="number" value="${bs.pts??""}"><input id="rs_ba" type="number" value="${bs.adv??""}"><input id="rs_bn" type="number" value="${bs.pen??""}"></div></div>
+  <div id="rs_msg"></div><div class="toolbar"><button class="btn btn-red" id="rs_go">${t("saveResult")}</button><button class="btn btn-ghost" onclick="$('resModal').classList.remove('show')">${t("cancel")}</button></div></div>`;
+ md.querySelectorAll(".pick button").forEach(b=>b.onclick=()=>{_res.w=b.dataset.w;md.querySelectorAll(".pick button").forEach(x=>x.classList.toggle("on",x===b))});
+ $("rs_go").onclick=async()=>{if(!_res.w)return $("rs_msg").innerHTML=`<div class="msg msg-err">${t("winnerPick")}</div>`;
+  const num=id=>$(id).value===""?null:+$(id).value;const sc=(p,a,n)=>{const o={pts:num(p),adv:num(a),pen:num(n)};return o.pts==null&&o.adv==null&&o.pen==null?null:o};
+  $("rs_go").disabled=true;
+  const {error}=await sb.rpc("set_match_result",{p_match:_res.id,p_winner:_res.w,p_method:$("rs_m").value,p_red:sc("rs_rp","rs_ra","rs_rn"),p_blue:sc("rs_bp","rs_ba","rs_bn")});
+  $("rs_go").disabled=false;if(error)return $("rs_msg").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;
+  md.classList.remove("show");toast(t("resultSaved"));viewBracket(_bdiv.id)};
+ md.classList.add("show");
+}
+
+/* ================= profiles ================= */
+async function viewProfile(){
+ await loadMe();chrome();
+ $("view").innerHTML=`<h1>${t("myProfile")}</h1><p class="sub"><a href="#athlete-${me.id}" style="color:var(--accent2)">${t("publicProfile")} →</a></p>
+ <div class="card" style="max-width:720px"><div id="m"></div><form id="pf">
+ <div class="row"><div class="field" style="grid-column:span 2"><label>${t("name")}</label><input name="full_name" required value="${esc(me.full_name||"")}"></div></div>
+ <div class="row"><div class="field"><label>${t("birth")}</label><input type="date" name="birth_date" value="${me.birth_date||""}"></div>
+  <div class="field"><label>${t("gender")}</label><select name="gender"><option value=""></option><option value="m" ${me.gender==="m"?"selected":""}>${t("g_m")}</option><option value="f" ${me.gender==="f"?"selected":""}>${t("g_f")}</option></select></div>
+  <div class="field"><label>${t("beltL")}</label><select name="belt"><option value=""></option>${JEKPE_BELTS.map(b=>`<option value="${b}" ${me.belt===b?"selected":""}>${t("belt_"+b)}</option>`).join("")}</select></div>
+  <div class="field"><label>${t("weightL")}</label><input type="number" step="0.1" name="weight" value="${me.weight??""}"></div></div>
+ <div class="row"><div class="field"><label>${t("club")}</label><input name="club_name" value="${esc(me.club_name||"")}"></div>
+  <div class="field"><label>${t("city")}</label><input name="city" value="${esc(me.city||"")}"></div>
+  <div class="field"><label>${t("country")}</label><input name="country" value="${esc(me.country||"KZ")}"></div>
+  <div class="field"><label>${t("phone")}</label><input name="phone" value="${esc(me.phone||"")}"></div></div>
+ <div class="field"><label>${t("bio")}</label><textarea name="bio" rows="3">${esc(me.bio||"")}</textarea></div>
+ <button class="btn btn-red">${t("saveProfile")}</button></form></div>`;
+ $("pf").onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));Object.keys(d).forEach(k=>{if(d[k]==="")d[k]=null});if(d.weight!=null)d.weight=+d.weight;
+  const {error}=await sb.from("profiles").update(d).eq("id",me.id);
+  if(error)return $("m").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;
+  await loadMe();chrome();toast(t("profileSaved"));let after=null;try{after=sessionStorage.getItem("jekpe-after");sessionStorage.removeItem("jekpe-after")}catch(x){}
+  if(after&&after.startsWith("#event"))location.hash=after.slice(1);else viewProfile()};
+}
+async function viewAthlete(id){
+ const [{data:p,error},{data:st},{data:regs},{data:bh}]=await Promise.all([sb.rpc("public_profile",{p:id}),sb.rpc("athlete_stats",{p:id}),
+  sb.from("registrations").select("id,status,place,club_name,events(id,title,starts_on,status,sport),divisions(id,name)").eq("athlete_id",id).neq("status","cancelled"),
+  sb.from("belt_history").select("belt,changed_at").eq("athlete_id",id).order("changed_at")]);
+ if(error)throw error;if(!p){$("view").innerHTML=`<div class="card empty">—</div>`;return}
+ const ids=(regs||[]).map(r=>r.id);let ms=[],opp={};
+ if(ids.length){const {data}=await sb.from("matches").select("*").or(`red_id.in.(${ids.join(",")}),blue_id.in.(${ids.join(",")})`).eq("status","done");
+  ms=(data||[]).filter(m=>m.red_id&&m.blue_id&&m.win_reason!=="bye");
+  const oids=[...new Set(ms.map(m=>ids.includes(m.red_id)?m.blue_id:m.red_id))];
+  if(oids.length){const {data:o}=await sb.from("registrations").select("id,athlete_id,profiles(full_name)").in("id",oids);(o||[]).forEach(x=>opp[x.id]=x)}}
+ const today=new Date().toISOString().slice(0,10);
+ const up=(regs||[]).filter(r=>r.events&&r.events.starts_on>=today&&r.events.status!=="finished");
+ const past=(regs||[]).filter(r=>!up.includes(r)).sort((a,b)=>(b.events?.starts_on||"").localeCompare(a.events?.starts_on||""));
+ const s=st||{events:0,matches:0,wins:0,losses:0,by_method:{},gold:0,silver:0,bronze:0};
+ const rate=s.matches?Math.round(s.wins/s.matches*100):0;const bm=s.by_method||{};const maxM=Math.max(1,...Object.values(bm));
+ const initials=(p.full_name||"?").split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+ $("view").innerHTML=`<div class="card"><div class="phead"><div class="avatar">${esc(initials)}</div><div style="flex:1;min-width:200px"><h1 style="margin:0">${esc(p.full_name)}</h1>
+  <div class="meta" style="margin-top:6px;display:flex;gap:14px;flex-wrap:wrap"><span>${beltBadge(p.belt)}</span>${p.age!=null?`<span>${p.age} ${t("ageY")}</span>`:""}${p.club_name?`<span>🏠 ${esc(p.club_name)}</span>`:""}${p.city||p.country?`<span>📍 ${esc([p.city,p.country].filter(Boolean).join(", "))}</span>`:""}</div>
+  ${p.bio?`<p style="margin-top:10px;color:var(--muted)">${esc(p.bio)}</p>`:""}</div>${me&&me.id===id?`<a class="btn btn-line btn-sm" href="#profile">${t("editProfile")}</a>`:""}</div></div>
+ <div class="tiles" style="margin-bottom:20px"><div class="tile"><b>${s.events}</b><small>${t("st_events")}</small></div><div class="tile"><b>${s.matches}</b><small>${t("st_matches")}</small></div>
+  <div class="tile"><b style="color:var(--ok)">${s.wins}</b><small>${t("st_wins")}</small></div><div class="tile"><b style="color:#f87171">${s.losses}</b><small>${t("st_losses")}</small></div><div class="tile"><b>${rate}%</b><small>${t("st_rate")}</small></div></div>
+ <div class="grid2"><div class="card"><h2>${t("medals")}</h2><div class="podium"><div>🥇 ${s.gold}</div><div>🥈 ${s.silver}</div><div>🥉 ${s.bronze}</div></div>
+  <h2 style="margin-top:22px">${t("winTypes")}</h2>${Object.keys(bm).length?Object.entries(bm).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar"><span>${t("m_"+k)}</span><i style="width:${v/maxM*60}%"></i><b>${v}</b></div>`).join(""):`<div class="meta">${t("noMatches")}</div>`}</div>
+ <div class="card"><h2>${t("upcoming")}</h2>${up.length?up.map(r=>`<div style="margin-bottom:10px"><a href="#event-${r.events.id}" style="font-weight:700">${esc(r.events.title)}</a><div class="meta">${fmtDate(r.events.starts_on)} · ${esc(r.divisions?.name)}</div></div>`).join(""):`<div class="meta">—</div>`}
+  ${(bh||[]).length?`<h2 style="margin-top:22px">${t("beltHistory")}</h2>${bh.map(b=>`<div class="meta" style="margin:6px 0">${beltBadge(b.belt)} · ${new Date(b.changed_at).toLocaleDateString()}</div>`).join("")}`:""}</div></div>
+ <div class="card"><h2>${t("compHistory")}</h2>${past.length?past.map(r=>{const rm=ms.filter(m=>m.red_id===r.id||m.blue_id===r.id).sort((a,b)=>(a.part==="main"?0:1)-(b.part==="main"?0:1)||a.round-b.round);
+  return `<div style="border-top:1px solid var(--line);padding:14px 0"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><a href="#event-${r.events?.id}" style="font-weight:800">${esc(r.events?.title)}</a> <span class="meta">${fmtDate(r.events?.starts_on)}</span>
+   <div class="meta"><a href="#bracket-${r.divisions?.id}">${esc(r.divisions?.name)}</a></div></div>${r.place?`<div style="font-weight:800">${["","🥇","🥈","🥉"][r.place]||""} ${r.place}</div>`:""}</div>
+   ${rm.length?`<table style="margin-top:8px">${rm.map(m=>{const mine=m.red_id===r.id?"red":"blue",o=opp[mine==="red"?m.blue_id:m.red_id],won=m.winner_id===r.id,sc=m[mine+"_score"],osc=m[(mine==="red"?"blue":"red")+"_score"];
+    return `<tr><td class="${won?"res-w":"res-l"}" style="width:110px">${won?t("res_w"):t("res_l")}</td><td><a href="#athlete-${o?.athlete_id}">${esc(o?.profiles?.full_name||"—")}</a></td><td class="meta">${m.win_reason?esc(t("m_"+m.win_reason)):""}</td><td class="meta">${sc||osc?`${sc?.pts??0} : ${osc?.pts??0}`:""}</td></tr>`}).join("")}</table>`:""}</div>`}).join(""):`<div class="meta">${t("noMatches")}</div>`}</div>`;
 }
 
 /* ================= views: admin ================= */

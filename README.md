@@ -18,6 +18,13 @@
 - `#admin` — админка: роли и ручное начисление кредитов
 
 ## База
-1. `supabase/schema.sql` 2. `supabase/002_privacy.sql` 3. `supabase/003_brackets.sql`
+1. `supabase/schema.sql` 2. `supabase/002_privacy.sql` 3. `supabase/003_brackets.sql` 4. `supabase/004_profiles_results.sql`
 
 
+
+## Профиль атлета и результаты (как в Smoothcomp)
+- `#profile` — свой профиль: дата рождения, пол, пояс (понизить нельзя), вес, клуб
+- `#athlete-<id>` — публичный профиль: турниры, схватки, победы/поражения, % побед, победы по способу, медали, история, пояса
+- Дисциплины турнира (events.entries): категории создаются автоматически при регистрации (`register_athlete`)
+- Ввод результата в сетке (`set_match_result`): победитель проходит дальше, бронза, места 1–3
+- Джиу-джитсу по умолчанию — JJIF (веса, возрасты U10–Masters, детские пояса, golden score)

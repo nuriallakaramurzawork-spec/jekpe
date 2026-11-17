@@ -1,23 +1,41 @@
 // =====================================================================
 // JEKPE — шаблоны весовых категорий и систем сеток
 // Веса — максимальный вес категории; "+N" — свыше N кг.
-// Источники: IBJJF, JJIF, IJF, UWW, FIAS, WKF. Перед турниром сверяйте с регламентом.
+// Источники: JJIF (основной для джиу-джитсу), IBJJF, IJF, UWW, FIAS, WKF. Перед турниром сверяйте с регламентом.
 // =====================================================================
 window.JEKPE_PRESETS = {
   bjj: {
+    // Основной регламент — JJIF Jiu-Jitsu (Ne-Waza) v2.8; IBJJF — дополнительно
     bracket: "single_2bronze",
     belts: ["white", "blue", "purple", "brown", "black"],
     groups: [
-      { id: "adult_gi", label: { ru: "Взрослые 18+ · Gi (IBJJF)", kz: "Ересектер 18+ · Gi (IBJJF)", en: "Adult 18+ · Gi (IBJJF)" }, age: [18, null],
+      { id: "adult", label: { ru: "Взрослые 18+ (JJIF)", kz: "Ересектер 18+ (JJIF)", en: "Adults 18+ (JJIF)" }, age: [18, null], time: 300,
+        m: [56, 62, 69, 77, 85, 94, "+94"], f: [45, 48, 52, 57, 63, 70, "+70"] },
+      { id: "master", label: { ru: "Мастера 35+ (JJIF)", kz: "Шеберлер 35+ (JJIF)", en: "Masters 35+ (JJIF)" }, age: [35, null], time: 300,
+        m: [56, 62, 69, 77, 85, 94, "+94"], f: [45, 48, 52, 57, 63, 70, "+70"] },
+      { id: "u21", label: { ru: "U21 · 18–20 (JJIF)", kz: "U21 · 18–20 (JJIF)", en: "U21 · 18–20 (JJIF)" }, age: [18, 20], time: 300,
+        m: [56, 62, 69, 77, 85, 94, "+94"], f: [45, 48, 52, 57, 63, 70, "+70"] },
+      { id: "u18", label: { ru: "U18 · 16–17 (JJIF)", kz: "U18 · 16–17 (JJIF)", en: "U18 · 16–17 (JJIF)" }, age: [16, 17], time: 240,
+        belts: ["white", "grey", "yellow", "orange", "green", "blue", "purple"],
+        m: [46, 50, 55, 60, 66, 73, 81, "+81"], f: [40, 44, 48, 52, 57, 63, 70, "+70"] },
+      { id: "u16", label: { ru: "U16 · 14–15 (JJIF)", kz: "U16 · 14–15 (JJIF)", en: "U16 · 14–15 (JJIF)" }, age: [14, 15], time: 180,
+        belts: ["white", "grey", "yellow", "orange", "green"],
+        m: [38, 42, 46, 50, 55, 60, 66, "+66"], f: [32, 36, 40, 44, 48, 52, 57, "+57"] },
+      { id: "u14", label: { ru: "U14 · 12–13 (JJIF)", kz: "U14 · 12–13 (JJIF)", en: "U14 · 12–13 (JJIF)" }, age: [12, 13], time: 180,
+        belts: ["white", "grey", "yellow", "orange", "green"],
+        m: [32, 36, 40, 44, 48, 52, 56, 62, 69, "+69"], f: [25, 28, 32, 36, 40, 44, 48, 52, 57, "+57"] },
+      { id: "u12", label: { ru: "U12 · 10–11 (JJIF)", kz: "U12 · 10–11 (JJIF)", en: "U12 · 10–11 (JJIF)" }, age: [10, 11], time: 180,
+        belts: ["white", "grey", "yellow", "orange", "green"],
+        m: [25, 28, 32, 36, 40, 44, 48, 52, "+52"], f: [22, 25, 28, 32, 36, 40, 44, 48, "+48"] },
+      { id: "u10", label: { ru: "U10 · 8–9 (JJIF)", kz: "U10 · 8–9 (JJIF)", en: "U10 · 8–9 (JJIF)" }, age: [8, 9], time: 90,
+        belts: ["white", "grey", "yellow", "orange", "green"],
+        m: [22, 25, 28, 32, 36, 40, 44, "+44"], f: [20, 22, 25, 28, 32, 36, 40, "+40"] },
+      { id: "ibjjf_adult_gi", label: { ru: "Взрослые 18+ · Gi (IBJJF)", kz: "Ересектер 18+ · Gi (IBJJF)", en: "Adult 18+ · Gi (IBJJF)" }, age: [18, null],
         time: { white: 300, blue: 360, purple: 420, brown: 480, black: 600 },
         m: [57.5, 64, 70, 76, 82.3, 88.3, 94.3, 100.5, "+100.5"], f: [48.5, 53.5, 58.5, 64, 69, 74, 79.3, "+79.3"] },
-      { id: "adult_nogi", label: { ru: "Взрослые 18+ · No-Gi (IBJJF)", kz: "Ересектер 18+ · No-Gi (IBJJF)", en: "Adult 18+ · No-Gi (IBJJF)" }, age: [18, null],
+      { id: "ibjjf_adult_nogi", label: { ru: "Взрослые 18+ · No-Gi (IBJJF)", kz: "Ересектер 18+ · No-Gi (IBJJF)", en: "Adult 18+ · No-Gi (IBJJF)" }, age: [18, null],
         time: { white: 300, blue: 360, purple: 420, brown: 480, black: 600 },
-        m: [55.5, 61.5, 67.5, 73.5, 79.5, 85.5, 91.5, 97.5, "+97.5"], f: [46.5, 51.5, 56.5, 61.5, 66.5, 71.5, 76.5, "+76.5"] },
-      { id: "master", label: { ru: "Мастера 30+ · Gi", kz: "Шеберлер 30+ · Gi", en: "Masters 30+ · Gi" }, age: [30, null], time: 300,
-        m: [57.5, 64, 70, 76, 82.3, 88.3, 94.3, 100.5, "+100.5"], f: [48.5, 53.5, 58.5, 64, 69, 74, 79.3, "+79.3"] },
-      { id: "juvenile", label: { ru: "Юниоры 16–17 · Gi", kz: "Жасөспірімдер 16–17 · Gi", en: "Juvenile 16–17 · Gi" }, age: [16, 17], time: 300,
-        m: [53.5, 58.5, 64, 69, 74, 79.3, 84.3, 89.3, "+89.3"], f: [44.3, 48.3, 52.5, 56.5, 60.5, 65, 69, "+69"] }
+        m: [55.5, 61.5, 67.5, 73.5, 79.5, 85.5, 91.5, 97.5, "+97.5"], f: [46.5, 51.5, 56.5, 61.5, 66.5, 71.5, 76.5, "+76.5"] }
     ]
   },
   newaza: {
@@ -82,3 +100,6 @@ window.JEKPE_PRESETS = {
 };
 
 window.JEKPE_BRACKETS = ["single", "single_2bronze", "repechage_judo", "repechage_full", "double", "round_robin", "pools", "best_of_3"];
+
+window.JEKPE_BELTS = ["white", "grey", "yellow", "orange", "green", "blue", "purple", "brown", "black"];
+window.JEKPE_BELT_COLORS = { white: "#f4f4f5", grey: "#9ca3af", yellow: "#facc15", orange: "#fb923c", green: "#22c55e", blue: "#2563eb", purple: "#7c3aed", brown: "#7c4a1e", black: "#111111" };
