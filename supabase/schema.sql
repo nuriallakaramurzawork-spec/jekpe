@@ -123,7 +123,7 @@ create table matches (
 -- Подтвердить заявку: списывает 1 кредит у организатора.
 -- Если кредитов нет — ошибка, заявка остаётся «в ожидании».
 create or replace function confirm_registration(reg_id uuid)
-returns void language plpgsql security definer as $$
+returns void language plpgsql security definer set search_path = public as $$
 declare
   r   registrations;
   org uuid;
@@ -149,7 +149,7 @@ end $$;
 
 -- Отменить подтверждённую заявку: кредит возвращается.
 create or replace function cancel_registration(reg_id uuid)
-returns void language plpgsql security definer as $$
+returns void language plpgsql security definer set search_path = public as $$
 declare r registrations; org uuid;
 begin
   select * into r from registrations where id = reg_id for update;
@@ -167,7 +167,7 @@ end $$;
 
 -- Ручное начисление (только админ — ты): после перевода на Kaspi.
 create or replace function add_credits(org_id uuid, qty int, comment text)
-returns void language plpgsql security definer as $$
+returns void language plpgsql security definer set search_path = public as $$
 begin
   if not is_admin() then raise exception 'Только для админа'; end if;
   update profiles set credits = credits + qty where id = org_id;
@@ -176,18 +176,19 @@ begin
 end $$;
 
 create or replace function is_admin() returns boolean
-language sql stable security definer as $$
+language sql stable security definer set search_path = public as $$
   select exists (select 1 from profiles where id = auth.uid() and role = 'admin');
 $$;
 
 -- Профиль создаётся автоматически при регистрации
 create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+returns trigger language plpgsql security definer set search_path = public as $$
 begin
   insert into profiles (id, full_name, role)
   values (new.id,
           coalesce(new.raw_user_meta_data->>'full_name', ''),
-          coalesce(new.raw_user_meta_data->>'role', 'athlete'));
+          case when new.raw_user_meta_data->>'role' in ('athlete','coach','organizer')
+               then new.raw_user_meta_data->>'role' else 'athlete' end);  -- admin нельзя выбрать при регистрации
   return new;
 end $$;
 create trigger on_auth_user_created
