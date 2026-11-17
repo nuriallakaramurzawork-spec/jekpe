@@ -4,5 +4,5 @@ window.JEKPE_CONFIG = {
   supabaseUrl: "https://qxdjbwnxutpvsnuovofp.supabase.co",
   supabaseKey: "sb_publishable_0Z6qHLAzTGCJeMfJPvHOlA_yL7U42CH",
   // Контакт администратора для пополнения кредитов (WhatsApp / Telegram / Kaspi)
-  adminContact: ""
+  adminContact: "WhatsApp: +7 702 342 80 01"
 };
