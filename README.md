@@ -18,4 +18,6 @@
 - `#admin` — админка: роли и ручное начисление кредитов
 
 ## База
-1. `supabase/schema.sql` 2. `supabase/002_privacy.sql`
+1. `supabase/schema.sql` 2. `supabase/002_privacy.sql` 3. `supabase/003_brackets.sql`
+
+

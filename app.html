@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="vendor/supabase-2.119.0.js"></script>
 <script src="config.js"></script>
+<script src="presets.js"></script>
 <style>
 :root{--bg:#0a0a0b;--bg2:#121214;--card:#17171a;--line:#26262b;--text:#f4f4f5;--muted:#a1a1aa;--accent:#e11d2e;--accent2:#ff4d5a;--ok:#22c55e;--warn:#f5b301}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -83,6 +84,18 @@ td input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok)}
 .loader{color:var(--muted);padding:40px;text-align:center}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:#000;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;transition:.3s;z-index:200;max-width:90vw}
 .toast.show{transform:translateX(-50%) translateY(0)}
+.bracket{display:flex;gap:28px;overflow-x:auto;padding:6px 2px 14px}
+.bcol{display:flex;flex-direction:column;justify-content:space-around;gap:14px;min-width:210px}
+.bcol h5{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:center;margin-bottom:4px}
+.bm{background:var(--bg2);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+.bm div{padding:7px 11px;display:flex;justify-content:space-between;gap:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bm div+div{border-top:1px solid var(--line)}
+.bm .r{border-left:3px solid #dc2626}.bm .b{border-left:3px solid #2563eb}
+.bm .w{font-weight:800;color:var(--text)}.bm .l{color:var(--muted)}.bm .e{color:#52525b;font-style:italic}
+.bm small{color:var(--muted);font-size:11px}
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.chk label{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:14px;cursor:pointer;color:var(--text)}
+.chk input{accent-color:var(--accent)}
 .burger{display:none;background:none;color:var(--text);font-size:24px}
 @media(max-width:860px){
  .grid{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}
@@ -110,7 +123,7 @@ td input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok)}
 <script>
 /* ================= i18n ================= */
 const TX={
-ru:{events:"Турниры",my:"Мои заявки",org:"Кабинет организатора",admin:"Админка",login:"Войти",signup:"Регистрация",logout:"Выйти",
+ru:{round:"Круг",fromPreset:"Категории по шаблону федерации",ageGroup:"Возрастная группа",belts:"Пояса",withOpen:"+ абсолютная категория",createN:"Создать категории",createdN:"Создано категорий",customDiv:"Своя категория",belt_white:"Белый",belt_blue:"Синий",belt_purple:"Фиолетовый",belt_brown:"Коричневый",belt_black:"Чёрный",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпийская, две бронзы (IBJJF)",b_repechage_judo:"С утешительными (IJF)",b_repechage_full:"С утешительными (UWW / FIAS / WKF)",b_pools:"Группы + плей-офф",b_best_of_3:"До двух побед (2 участника)",draw:"Жеребьёвка",redraw:"Перетянуть жребий",bracketBtn:"Сетка",noConfirmed:"Нет подтверждённых участников",drawDone:"Жеребьёвка проведена",redrawQ:"Нажмите ещё раз — текущая сетка будет удалена",final:"Финал",bronzeM:"За 3-е место",pool:"Группа",bye:"проход",bout:"Схватка",system:"Система",noDraw:"Жеребьёвка ещё не проведена",participantsT:"Участники",clubOpt:"Клуб (необязательно)",club:"Клуб",repNote:"Утешительные схватки появятся, когда будут известны результаты основной сетки.",doubleNote:"Сетка проигравших заполняется по ходу турнира.",poolsNote:"В плей-офф выходят двое лучших из каждой группы.",rrHint:"При 5 и менее участниках удобнее круговая система.",genders:"Пол",pickOne:"Выберите хотя бы один пол",presetNote:"Веса по правилам федераций. Перед турниром сверьте с регламентом.",events:"Турниры",my:"Мои заявки",org:"Кабинет организатора",admin:"Админка",login:"Войти",signup:"Регистрация",logout:"Выйти",
 eventsH:"Турниры",eventsSub:"Открытые и ближайшие соревнования",noEvents:"Пока нет открытых турниров",
 email:"Email",password:"Пароль",name:"Имя и фамилия",iam:"Я —",r_athlete:"Атлет",r_coach:"Тренер",r_organizer:"Организатор",r_admin:"Админ",
 loginH:"Вход",signupH:"Регистрация",noAcc:"Нет аккаунта?",haveAcc:"Уже есть аккаунт?",forgot:"Забыли пароль?",resetSent:"Ссылка для сброса пароля отправлена на почту",
@@ -131,14 +144,14 @@ notOrg:"Создавать турниры могут только организ
 manage:"Управлять",open:"Открыть",total:"Всего",confirmed:"Подтверждено",pending:"Ожидают",
 evStatus:"Статус турнира",addDiv:"Добавить категорию",divName:"Название категории",gender:"Пол",g_m:"Муж",g_f:"Жен",g_mixed:"Смешанная",
 ageMin:"Возраст от",ageMax:"Возраст до",weight:"Вес до, кг",belt:"Пояс / разряд",matchTime:"Время боя, сек",bracket:"Сетка",
-b_single:"Олимпийская",b_double:"Двойное выбывание",b_round_robin:"Круговая",del:"Удалить",
+b_single:"Олимпийская + бой за 3-е место",b_double:"Двойное выбывание",b_round_robin:"Круговая",del:"Удалить",
 regs:"Заявки",athlete:"Атлет",weighIn:"Вес",confirm:"Подтвердить",noCredits:"Недостаточно кредитов. Пополните баланс.",
 confirmedT:"Заявка подтверждена, списан 1 кредит",cancelledT:"Заявка отменена",savedT:"Сохранено",
 publicPage:"Публичная страница",copyLink:"Скопировать ссылку",copied:"Ссылка скопирована",
 adminH:"Админка",users:"Пользователи",role:"Роль",add:"Начислить",note:"Комментарий (напр. Kaspi 45 000 ₸)",qty:"Кол-во",
 addedT:"Кредиты начислены",roleT:"Роль изменена",onlyAdmin:"Только для администратора",search:"Поиск по имени или email",
 needLogin:"Войдите, чтобы продолжить",error:"Ошибка",back:"← Назад",deleteDivQ:"Удалить категорию? Все заявки в ней тоже удалятся.",yes:"Да, удалить",no:"Нет"},
-kz:{events:"Турнирлер",my:"Менің өтінімдерім",org:"Ұйымдастырушы кабинеті",admin:"Әкімші",login:"Кіру",signup:"Тіркелу",logout:"Шығу",
+kz:{round:"Айналым",fromPreset:"Федерация үлгісі бойынша санаттар",ageGroup:"Жас тобы",belts:"Белбеулер",withOpen:"+ абсолюттік санат",createN:"Санаттарды құру",createdN:"Құрылған санаттар",customDiv:"Өз санатым",belt_white:"Ақ",belt_blue:"Көк",belt_purple:"Күлгін",belt_brown:"Қоңыр",belt_black:"Қара",openCl:"Абсолют",kg:"кг",b_single_2bronze:"Олимпиадалық, екі қола (IBJJF)",b_repechage_judo:"Жұбаныш белдесулерімен (IJF)",b_repechage_full:"Жұбаныш белдесулерімен (UWW / FIAS / WKF)",b_pools:"Топтар + плей-офф",b_best_of_3:"Екі жеңіске дейін (2 қатысушы)",draw:"Жеребе",redraw:"Жеребені қайта тарту",bracketBtn:"Тор",noConfirmed:"Расталған қатысушылар жоқ",drawDone:"Жеребе өткізілді",redrawQ:"Тағы басыңыз — қазіргі тор жойылады",final:"Финал",bronzeM:"3-орын үшін",pool:"Топ",bye:"өту",bout:"Белдесу",system:"Жүйе",noDraw:"Жеребе әлі өткізілмеген",participantsT:"Қатысушылар",clubOpt:"Клуб (міндетті емес)",club:"Клуб",repNote:"Жұбаныш белдесулері негізгі тордың нәтижелері белгілі болғанда пайда болады.",doubleNote:"Жеңілгендер торы турнир барысында толтырылады.",poolsNote:"Плей-оффқа әр топтың үздік екеуі шығады.",rrHint:"5 немесе одан аз қатысушыда айналмалы жүйе ыңғайлы.",genders:"Жынысы",pickOne:"Кемінде бір жынысты таңдаңыз",presetNote:"Салмақтар федерация ережелері бойынша. Турнир алдында регламентпен салыстырыңыз.",events:"Турнирлер",my:"Менің өтінімдерім",org:"Ұйымдастырушы кабинеті",admin:"Әкімші",login:"Кіру",signup:"Тіркелу",logout:"Шығу",
 eventsH:"Турнирлер",eventsSub:"Ашық және жақын арадағы жарыстар",noEvents:"Әзірге ашық турнирлер жоқ",
 email:"Email",password:"Құпиясөз",name:"Аты-жөні",iam:"Мен —",r_athlete:"Спортшы",r_coach:"Жаттықтырушы",r_organizer:"Ұйымдастырушы",r_admin:"Әкімші",
 loginH:"Кіру",signupH:"Тіркелу",noAcc:"Аккаунт жоқ па?",haveAcc:"Аккаунт бар ма?",forgot:"Құпиясөзді ұмыттыңыз ба?",resetSent:"Құпиясөзді қалпына келтіру сілтемесі поштаға жіберілді",
@@ -159,14 +172,14 @@ notOrg:"Турнирлерді тек ұйымдастырушылар құра 
 manage:"Басқару",open:"Ашу",total:"Барлығы",confirmed:"Расталды",pending:"Күтуде",
 evStatus:"Турнир мәртебесі",addDiv:"Санат қосу",divName:"Санат атауы",gender:"Жынысы",g_m:"Ер",g_f:"Әйел",g_mixed:"Аралас",
 ageMin:"Жасы бастап",ageMax:"Жасы дейін",weight:"Салмағы дейін, кг",belt:"Белбеу / разряд",matchTime:"Белдесу уақыты, сек",bracket:"Тор",
-b_single:"Олимпиадалық",b_double:"Қос шығу",b_round_robin:"Айналмалы",del:"Жою",
+b_single:"Олимпиадалық + 3-орын үшін белдесу",b_double:"Қос шығу",b_round_robin:"Айналмалы",del:"Жою",
 regs:"Өтінімдер",athlete:"Спортшы",weighIn:"Салмақ",confirm:"Растау",noCredits:"Кредит жеткіліксіз. Балансты толтырыңыз.",
 confirmedT:"Өтінім расталды, 1 кредит есептен шығарылды",cancelledT:"Өтінімнен бас тартылды",savedT:"Сақталды",
 publicPage:"Ашық бет",copyLink:"Сілтемені көшіру",copied:"Сілтеме көшірілді",
 adminH:"Әкімші",users:"Пайдаланушылар",role:"Рөлі",add:"Есептеу",note:"Түсініктеме (мыс. Kaspi 45 000 ₸)",qty:"Саны",
 addedT:"Кредиттер есептелді",roleT:"Рөл өзгертілді",onlyAdmin:"Тек әкімші үшін",search:"Аты немесе email бойынша іздеу",
 needLogin:"Жалғастыру үшін кіріңіз",error:"Қате",back:"← Артқа",deleteDivQ:"Санатты жою керек пе? Ондағы барлық өтінімдер де жойылады.",yes:"Иә, жою",no:"Жоқ"},
-en:{events:"Events",my:"My entries",org:"Organizer dashboard",admin:"Admin",login:"Log in",signup:"Sign up",logout:"Log out",
+en:{round:"Round",fromPreset:"Divisions from federation template",ageGroup:"Age group",belts:"Belts",withOpen:"+ open class",createN:"Create divisions",createdN:"Divisions created",customDiv:"Custom division",belt_white:"White",belt_blue:"Blue",belt_purple:"Purple",belt_brown:"Brown",belt_black:"Black",openCl:"Open class",kg:"kg",b_single_2bronze:"Single elimination, two bronzes (IBJJF)",b_repechage_judo:"Repechage (IJF)",b_repechage_full:"Repechage (UWW / FIAS / WKF)",b_pools:"Pools + playoff",b_best_of_3:"Best of three (2 athletes)",draw:"Draw",redraw:"Redraw",bracketBtn:"Bracket",noConfirmed:"No confirmed athletes",drawDone:"Draw complete",redrawQ:"Click again — the current bracket will be deleted",final:"Final",bronzeM:"Bronze match",pool:"Pool",bye:"bye",bout:"Bout",system:"System",noDraw:"Draw not done yet",participantsT:"Athletes",clubOpt:"Club (optional)",club:"Club",repNote:"Repechage bouts appear once main bracket results are in.",doubleNote:"The losers bracket fills in as the event progresses.",poolsNote:"The top two of each pool go to the playoff.",rrHint:"With 5 or fewer athletes, round robin works better.",genders:"Gender",pickOne:"Pick at least one gender",presetNote:"Weights follow federation rules. Check the regulations before the event.",events:"Events",my:"My entries",org:"Organizer dashboard",admin:"Admin",login:"Log in",signup:"Sign up",logout:"Log out",
 eventsH:"Events",eventsSub:"Open and upcoming competitions",noEvents:"No open events yet",
 email:"Email",password:"Password",name:"Full name",iam:"I am a",r_athlete:"Athlete",r_coach:"Coach",r_organizer:"Organizer",r_admin:"Admin",
 loginH:"Log in",signupH:"Create account",noAcc:"No account?",haveAcc:"Already have an account?",forgot:"Forgot password?",resetSent:"Password reset link sent to your email",
@@ -187,7 +200,7 @@ notOrg:"Only organizers can create events. Contact the administrator to get acce
 manage:"Manage",open:"Open",total:"Total",confirmed:"Confirmed",pending:"Pending",
 evStatus:"Event status",addDiv:"Add division",divName:"Division name",gender:"Gender",g_m:"Male",g_f:"Female",g_mixed:"Mixed",
 ageMin:"Age from",ageMax:"Age to",weight:"Weight up to, kg",belt:"Belt / rank",matchTime:"Match time, sec",bracket:"Bracket",
-b_single:"Single elimination",b_double:"Double elimination",b_round_robin:"Round robin",del:"Delete",
+b_single:"Single elimination + bronze match",b_double:"Double elimination",b_round_robin:"Round robin",del:"Delete",
 regs:"Entries",athlete:"Athlete",weighIn:"Weight",confirm:"Confirm",noCredits:"Not enough credits. Please top up.",
 confirmedT:"Entry confirmed, 1 credit used",cancelledT:"Entry cancelled",savedT:"Saved",
 publicPage:"Public page",copyLink:"Copy link",copied:"Link copied",
@@ -195,8 +208,8 @@ adminH:"Admin",users:"Users",role:"Role",add:"Add",note:"Note (e.g. Kaspi 45,000
 addedT:"Credits added",roleT:"Role updated",onlyAdmin:"Admins only",search:"Search by name or email",
 needLogin:"Log in to continue",error:"Error",back:"← Back",deleteDivQ:"Delete this division? All its entries will be deleted too.",yes:"Yes, delete",no:"No"}
 };
-const SPORT={bjj:{ru:"Джиу-джитсу",kz:"Джиу-джитсу",en:"Jiu-Jitsu"},judo:{ru:"Дзюдо",kz:"Дзюдо",en:"Judo"},free:{ru:"Вольная борьба",kz:"Еркін күрес",en:"Freestyle wrestling"},greco:{ru:"Греко-римская борьба",kz:"Грек-рим күресі",en:"Greco-Roman wrestling"},sambo:{ru:"Самбо",kz:"Самбо",en:"Sambo"},karate:{ru:"Каратэ",kz:"Каратэ",en:"Karate"}};
-const MATCH_TIME={bjj:300,judo:240,free:180,greco:180,sambo:300,karate:180};
+const SPORT={bjj:{ru:"Джиу-джитсу (BJJ)",kz:"Джиу-джитсу (BJJ)",en:"Brazilian Jiu-Jitsu"},newaza:{ru:"Джиу-джитсу не-ваза (JJIF)",kz:"Джиу-джитсу не-ваза (JJIF)",en:"Ju-Jitsu Ne-Waza (JJIF)"},judo:{ru:"Дзюдо",kz:"Дзюдо",en:"Judo"},free:{ru:"Вольная борьба",kz:"Еркін күрес",en:"Freestyle wrestling"},greco:{ru:"Греко-римская борьба",kz:"Грек-рим күресі",en:"Greco-Roman wrestling"},sambo:{ru:"Самбо",kz:"Самбо",en:"Sambo"},karate:{ru:"Каратэ",kz:"Каратэ",en:"Karate"}};
+const MATCH_TIME={bjj:300,newaza:360,judo:240,free:180,greco:180,sambo:300,karate:180};
 let L="ru";try{L=localStorage.getItem("jekpe-lang")||"ru"}catch(e){}
 const t=k=>TX[L][k]??TX.ru[k]??k;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -254,6 +267,7 @@ async function route(){
   if(v==="signup")return viewSignup(id);
   if(v==="reset")return viewReset();
   if(v==="event")return viewEvent(id);
+  if(v==="bracket")return viewBracket(id);
   if(v==="my"){if(!need())return;return viewMy()}
   if(v==="org"){if(!need())return;return viewOrg()}
   if(v==="manage"){if(!need())return;return viewManage(id)}
@@ -334,14 +348,14 @@ async function viewEvent(id){
   ${e.payment_info?`<div class="msg msg-info" style="margin:18px 0 0"><b style="color:var(--text)">${t("payInfo")}:</b> ${esc(e.payment_info)}</div>`:""}
  </div>
  ${canApply?`<div class="card"><h2>${t("apply")}</h2><div id="m"></div>
-  ${me?`<div class="toolbar"><select id="dsel" class="btn btn-line" style="min-width:240px"><option value="">${t("chooseDiv")}</option>${divs.filter(d=>!mine.has(d.id)).map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join("")}</select><button class="btn btn-red" id="applyB">${t("apply")}</button></div>`
+  ${me?`<div class="toolbar"><select id="dsel" class="btn btn-line" style="min-width:240px;max-width:100%"><option value="">${t("chooseDiv")}</option>${divs.filter(d=>!mine.has(d.id)).map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join("")}</select><input id="clubIn" class="btn btn-line" placeholder="${t("clubOpt")}" style="text-align:left;min-width:180px"><button class="btn btn-red" id="applyB">${t("apply")}</button></div>`
   :`<a class="btn btn-red" href="#login" onclick="try{sessionStorage.setItem('jekpe-after','#event-${e.id}')}catch(x){}">${t("loginToApply")}</a>`}</div>`:""}
  <h2 style="margin-top:28px">${t("divisions")}</h2>
- ${(divs||[]).length?divs.map(d=>{const list=by[d.id]||[];return`<div class="div-box"><h4><span>${esc(d.name)}</span><span class="meta">${list.length} ${t("participants")}</span></h4>
+ ${(divs||[]).length?divs.map(d=>{const list=by[d.id]||[];return`<div class="div-box"><h4><span>${esc(d.name)}</span><span class="meta">${list.length} ${t("participants")} · <a href="#bracket-${d.id}" style="color:var(--accent2)">${t("bracketBtn")} →</a></span></h4>
   ${list.length?`<div class="names">${list.map(r=>`<span class="${r.status==="pending"?"p":""}">${esc(r.profiles?.full_name||"—")}</span>`).join("")}</div>`:""}</div>`}).join("")
   :`<div class="card empty">${t("noDiv")}</div>`}`;
  const b=$("applyB");if(b)b.onclick=async()=>{const div=$("dsel").value;if(!div)return $("dsel").focus();b.disabled=true;
-  const {error}=await sb.from("registrations").insert({event_id:e.id,division_id:div,athlete_id:me.id});
+  const {error}=await sb.from("registrations").insert({event_id:e.id,division_id:div,athlete_id:me.id,club_name:$("clubIn").value.trim()||null});
   b.disabled=false;if(error)return $("m").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("applied"));viewEvent(id)};
 }
 
@@ -392,7 +406,7 @@ async function viewManage(id){
  const [{data:e,error},{data:divs},{data:regs}]=await Promise.all([
   sb.from("events").select("*").eq("id",id).single(),
   sb.from("divisions").select("*").eq("event_id",id).order("name"),
-  sb.from("registrations").select("id,division_id,status,paid,weight_in,created_at,profiles(full_name)").eq("event_id",id).order("created_at")]);
+  sb.from("registrations").select("id,division_id,status,paid,weight_in,club_name,created_at,profiles(full_name)").eq("event_id",id).order("created_at")]);
  if(error)throw error;
  if(e.organizer_id!==me.id&&me.role!=="admin"){$("view").innerHTML=`<div class="msg msg-err">${t("onlyAdmin")}</div>`;return}
  const dn={};(divs||[]).forEach(d=>dn[d.id]=d.name);
@@ -406,22 +420,29 @@ async function viewManage(id){
   <div class="toolbar" style="margin-top:12px"><a class="btn btn-line btn-sm" href="#event-${e.id}">${t("publicPage")} →</a><button class="btn btn-line btn-sm" id="cp">${t("copyLink")}</button></div></div>
  <div class="card"><h2>${t("regs")}</h2>
  ${rs.length?`<div class="tablewrap"><table><tr><th>${t("athlete")}</th><th>${t("division")}</th><th>${t("status")}</th><th>${t("paid")}</th><th>${t("weighIn")}</th><th></th></tr>
- ${rs.map(r=>`<tr style="${r.status==="cancelled"?"opacity:.45":""}"><td><b>${esc(r.profiles?.full_name)}</b></td><td>${esc(dn[r.division_id])}</td><td>${regStatus(r.status)}</td>
+ ${rs.map(r=>`<tr style="${r.status==="cancelled"?"opacity:.45":""}"><td><b>${esc(r.profiles?.full_name)}</b>${r.club_name?`<div class="meta">${esc(r.club_name)}</div>`:""}</td><td>${esc(dn[r.division_id])}</td><td>${regStatus(r.status)}</td>
   <td><input type="checkbox" ${r.paid?"checked":""} ${r.status==="cancelled"?"disabled":""} onchange="updReg('${r.id}',{paid:this.checked})"></td>
   <td><input type="number" step="0.1" value="${r.weight_in??""}" ${r.status==="cancelled"?"disabled":""} onchange="updReg('${r.id}',{weight_in:this.value===''?null:+this.value})"></td>
   <td style="white-space:nowrap">${r.status==="pending"?`<button class="btn btn-ok btn-sm" onclick="confirmReg('${r.id}','${id}')">${t("confirm")}</button> `:""}${r.status!=="cancelled"?`<button class="btn btn-line btn-sm" onclick="cancelReg('${r.id}',()=>viewManage('${id}'))">${t("cancel")}</button>`:""}</td></tr>`).join("")}</table></div>`
  :`<div class="empty">${t("noRegs")}</div>`}</div>
  <div class="card"><h2>${t("divisions")}</h2>
- ${(divs||[]).map(d=>`<div class="div-box"><h4><span>${esc(d.name)}</span><span class="toolbar"><span class="meta">${rs.filter(r=>r.division_id===d.id&&r.status!=="cancelled").length} ${t("participants")} · ${d.match_time}s · ${t("b_"+d.bracket)}</span><button class="btn btn-ghost btn-sm" onclick="delDiv('${d.id}','${id}',this)">${t("del")}</button></span></h4></div>`).join("")||`<div class="meta" style="margin-bottom:14px">${t("noDiv")}</div>`}
- <div style="border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:16px;background:var(--bg2)"><h2 style="font-size:16px">+ ${t("addDiv")}</h2><div id="m"></div>
+ ${(divs||[]).map(d=>{const nc=rs.filter(r=>r.division_id===d.id&&r.status==="confirmed").length,na=rs.filter(r=>r.division_id===d.id&&r.status!=="cancelled").length;return`<div class="div-box"><h4><span>${esc(d.name)}<div class="meta" style="font-weight:500;margin-top:4px">${na} ${t("participants")} (${t("confirmed").toLowerCase()}: ${nc}) · ${d.match_time}s${d.locked?" · ✓ "+t("drawDone").toLowerCase():""}</div></span>
+  <span class="toolbar"><select class="btn btn-line btn-sm" onchange="setBracket('${d.id}',this.value,'${id}')">${JEKPE_BRACKETS.map(b=>`<option value="${b}" ${d.bracket===b?"selected":""}>${t("b_"+b)}</option>`).join("")}</select>
+  <button class="btn ${d.locked?"btn-line":"btn-ok"} btn-sm" onclick="doDraw('${d.id}','${id}',this,${d.locked?1:0})">${d.locked?t("redraw"):t("draw")}</button>
+  <a class="btn btn-line btn-sm" href="#bracket-${d.id}">${t("bracketBtn")}</a>
+  <button class="btn btn-ghost btn-sm" onclick="delDiv('${d.id}','${id}',this)">${t("del")}</button></span></h4>
+  ${nc>0&&nc<=5&&!["round_robin","best_of_3"].includes(d.bracket)?`<div class="meta" style="margin-top:6px">💡 ${t("rrHint")}</div>`:""}</div>`}).join("")||`<div class="meta" style="margin-bottom:14px">${t("noDiv")}</div>`}
+ ${presetPanel(e)}
+ <div style="border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:16px;background:var(--bg2)"><h2 style="font-size:16px">+ ${t("customDiv")}</h2><div id="m"></div>
  <form id="df"><div class="row"><div class="field" style="grid-column:span 2"><label>${t("divName")}</label><input name="name" required placeholder="Adult Male −77 kg"></div>
   <div class="field"><label>${t("gender")}</label><select name="gender"><option value="m">${t("g_m")}</option><option value="f">${t("g_f")}</option><option value="mixed">${t("g_mixed")}</option></select></div></div>
  <div class="row"><div class="field"><label>${t("ageMin")}</label><input type="number" name="age_min" min="0"></div><div class="field"><label>${t("ageMax")}</label><input type="number" name="age_max" min="0"></div>
   <div class="field"><label>${t("weight")}</label><input type="number" name="weight_max" step="0.1"></div><div class="field"><label>${t("belt")}</label><input name="belt"></div></div>
  <div class="row"><div class="field"><label>${t("matchTime")}</label><input type="number" name="match_time" value="${MATCH_TIME[e.sport]}"></div>
-  <div class="field"><label>${t("bracket")}</label><select name="bracket">${["single","double","round_robin"].map(b=>`<option value="${b}">${t("b_"+b)}</option>`).join("")}</select></div></div>
+  <div class="field"><label>${t("bracket")}</label><select name="bracket">${JEKPE_BRACKETS.map(b=>`<option value="${b}" ${(JEKPE_PRESETS[e.sport]||{}).bracket===b?"selected":""}>${t("b_"+b)}</option>`).join("")}</select></div></div>
  <button class="btn btn-red">${t("addDiv")}</button></form></div></div>`;
  $("cp").onclick=async()=>{try{await navigator.clipboard.writeText(pub);toast(t("copied"))}catch(x){toast(pub)}};
+ bindPreset(e,id);
  $("df").onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));
   ["age_min","age_max","weight_max","match_time"].forEach(k=>d[k]=d[k]===""?null:+d[k]);if(!d.belt)d.belt=null;d.event_id=id;
   const {error}=await sb.from("divisions").insert(d);if(error)return $("m").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("savedT"));viewManage(id)};
@@ -432,6 +453,119 @@ async function confirmReg(id,ev){const {error}=await sb.rpc("confirm_registratio
 async function delDiv(id,ev,btn){
  if(btn.dataset.sure!=="1"){btn.dataset.sure="1";btn.textContent=t("yes");btn.classList.add("btn-red");setTimeout(()=>{btn.dataset.sure="";btn.textContent=t("del");btn.classList.remove("btn-red")},3000);toast(t("deleteDivQ"));return}
  const {error}=await sb.from("divisions").delete().eq("id",id);if(error)return toast(errText(error));viewManage(ev)}
+
+
+/* ================= presets & brackets ================= */
+const fmtW=w=>typeof w==="string"?w+" "+t("kg"):"−"+w+" "+t("kg");
+function presetPanel(e){
+ const P=JEKPE_PRESETS[e.sport];if(!P)return"";
+ return `<div style="border:1px solid var(--accent);border-radius:12px;padding:18px;margin-top:16px;background:rgba(225,29,46,.05)"><h2 style="font-size:16px">⚡ ${t("fromPreset")}</h2><div id="pm"></div>
+ <div class="row"><div class="field"><label>${t("ageGroup")}</label><select id="pg">${P.groups.map(g=>`<option value="${g.id}">${esc(g.label[L])}</option>`).join("")}</select></div>
+ <div class="field"><label>${t("bracket")}</label><select id="pb">${JEKPE_BRACKETS.map(b=>`<option value="${b}" ${P.bracket===b?"selected":""}>${t("b_"+b)}</option>`).join("")}</select></div></div>
+ <div class="field"><label>${t("genders")}</label><div class="chk"><label><input type="checkbox" id="pgm" checked> ${t("g_m")}</label><label><input type="checkbox" id="pgf" checked> ${t("g_f")}</label><label><input type="checkbox" id="pop"> ${t("withOpen")}</label></div></div>
+ ${P.belts?`<div class="field"><label>${t("belts")}</label><div class="chk">${P.belts.map(b=>`<label><input type="checkbox" class="pbelt" value="${b}" ${b==="white"||b==="blue"?"checked":""}> ${t("belt_"+b)}</label>`).join("")}</div></div>`:""}
+ <div class="field"><label>${t("weight")}</label><div class="chk" id="pw"></div></div>
+ <div class="toolbar"><button class="btn btn-red" id="pgo">${t("createN")}</button><span class="meta" id="pcount"></span></div>
+ <p class="meta" style="margin-top:10px;font-size:12px">${t("presetNote")}</p></div>`;
+}
+function presetRows(e,divEventId){
+ const P=JEKPE_PRESETS[e.sport],g=P.groups.find(x=>x.id===$("pg").value);
+ const gs=[$("pgm").checked&&"m",$("pgf").checked&&"f"].filter(Boolean).filter(x=>(g[x]||[]).length);
+ const belts=P.belts?[...document.querySelectorAll(".pbelt:checked")].map(x=>x.value):[null];
+ const wsel=new Set([...document.querySelectorAll(".pw:checked")].map(x=>x.value));
+ const rows=[];
+ gs.forEach(gen=>{const ws=g[gen].filter(w=>wsel.has(gen+"|"+w));
+  (belts.length?belts:[null]).forEach(belt=>{
+   const time=typeof g.time==="object"?(g.time[belt]||300):g.time;
+   const base=[g.label[L].split(" (")[0],t("g_"+gen)];
+   const mk=(wName,wMax)=>rows.push({event_id:divEventId,name:[...base,wName,belt?t("belt_"+belt):null].filter(Boolean).join(" · "),gender:gen,age_min:g.age[0],age_max:g.age[1],weight_max:wMax,belt:belt?t("belt_"+belt):null,match_time:time,bracket:$("pb").value});
+   ws.forEach(w=>mk(fmtW(w),typeof w==="string"?null:w));
+   if($("pop").checked)mk(t("openCl"),null);
+  })});
+ return rows;
+}
+function bindPreset(e,id){
+ if(!$("pg"))return;
+ const P=JEKPE_PRESETS[e.sport];
+ const drawW=()=>{const g=P.groups.find(x=>x.id===$("pg").value);
+  $("pw").innerHTML=["m","f"].filter(x=>(g[x]||[]).length).map(gen=>`<div style="width:100%;font-size:12px;color:var(--muted);margin-top:4px">${t("g_"+gen)}</div>`+g[gen].map(w=>`<label><input type="checkbox" class="pw" value="${gen}|${w}" checked> ${fmtW(w)}</label>`).join("")).join("");
+  count()};
+ const count=()=>{$("pcount").textContent=presetRows(e,id).length+" "+t("divisions").toLowerCase()};
+ $("pg").onchange=drawW;["pgm","pgf","pop","pb"].forEach(x=>$(x).onchange=count);
+ document.querySelectorAll(".pbelt").forEach(x=>x.onchange=count);
+ $("pw").onchange=count;drawW();
+ $("pgo").onclick=async()=>{const rows=presetRows(e,id);if(!rows.length)return $("pm").innerHTML=`<div class="msg msg-err">${t("pickOne")}</div>`;
+  $("pgo").disabled=true;const {error}=await sb.from("divisions").insert(rows);$("pgo").disabled=false;
+  if(error)return $("pm").innerHTML=`<div class="msg msg-err">${esc(errText(error))}</div>`;toast(t("createdN")+": "+rows.length);viewManage(id)};
+}
+async function setBracket(div,b,ev){const {error}=await sb.from("divisions").update({bracket:b}).eq("id",div);toast(error?errText(error):t("savedT"))}
+
+// --- draw ---
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function spreadClubs(regs){
+ const g={};regs.forEach(r=>{const k=(r.club_name||"").trim().toLowerCase()||("_"+r.id);(g[k]=g[k]||[]).push(r)});
+ const groups=shuffle(Object.values(g).map(shuffle)).sort((a,b)=>b.length-a.length);
+ const out=[];let left=true;while(left){left=false;groups.forEach(x=>{if(x.length){out.push(x.shift());left=true}})}
+ return out;
+}
+function seedOrder(n){let a=[1];while(a.length<n){const m=a.length*2+1;a=a.flatMap(x=>[x,m-x])}return a}
+function roundRobin(list){const a=[...list];if(a.length%2)a.push(null);const n=a.length,rounds=[];
+ for(let r=0;r<n-1;r++){const pr=[];for(let i=0;i<n/2;i++){const x=a[i],y=a[n-1-i];if(x&&y)pr.push([x,y])}rounds.push(pr);a.splice(1,0,a.pop())}return rounds}
+function buildMatches(div,regs){
+ const rows=[],D=div.id,list=spreadClubs(regs),n=list.length;
+ const M=(part,round,position,red,blue,extra={})=>rows.push({division_id:D,part,round,position,red_id:red?red.id:null,blue_id:blue?blue.id:null,status:red&&blue?"ready":"waiting",...extra});
+ if(div.bracket==="best_of_3"&&n===2){[1,2,3].forEach(r=>M("main",r,1,list[0],list[1]));return rows}
+ if(div.bracket==="round_robin"||div.bracket==="pools"){
+  const gcount=div.bracket==="pools"&&n>5?Math.ceil(n/4):1;const pools=Array.from({length:gcount},()=>[]);
+  list.forEach((r,i)=>{const row=Math.floor(i/gcount),col=i%gcount;pools[row%2?gcount-1-col:col].push(r)});
+  pools.forEach((p,gi)=>roundRobin(p).forEach((pr,ri)=>pr.forEach(([a,b],pi)=>M(gcount>1?"pool-"+String.fromCharCode(65+gi):"pool",ri+1,pi+1,a,b))));
+  return rows}
+ const size=Math.max(2,2**Math.ceil(Math.log2(Math.max(n,2)))),R=Math.log2(size),order=seedOrder(size);
+ const slot=order.map(rank=>list[rank-1]||null);const adv={};
+ for(let p=1;p<=size/2;p++){const a=slot[2*p-2],b=slot[2*p-1];
+  if(a&&b)M("main",1,p,a,b);else{const w=a||b;M("main",1,p,a,b,{status:"done",winner_id:w?w.id:null,win_reason:"bye"});if(w)adv[p]=w}}
+ for(let r=2;r<=R;r++)for(let p=1;p<=size/2**r;p++){
+  let red=null,blue=null;if(r===2){red=adv[2*p-1]||null;blue=adv[2*p]||null}
+  M("main",r,p,red,blue)}
+ if(div.bracket==="single"&&R>=2)M("bronze",R,1,null,null);
+ return rows;
+}
+async function doDraw(divId,ev,btn,exists){
+ if(exists&&btn.dataset.sure!=="1"){btn.dataset.sure="1";btn.classList.add("btn-red");toast(t("redrawQ"));setTimeout(()=>{btn.dataset.sure="";btn.classList.remove("btn-red")},3500);return}
+ btn.disabled=true;
+ const [{data:div},{data:regs}]=await Promise.all([sb.from("divisions").select("*").eq("id",divId).single(),sb.from("registrations").select("id,club_name").eq("division_id",divId).eq("status","confirmed")]);
+ if(!regs||!regs.length){btn.disabled=false;return toast(t("noConfirmed"))}
+ let r=await sb.from("matches").delete().eq("division_id",divId);if(r.error){btn.disabled=false;return toast(errText(r.error))}
+ r=await sb.from("matches").insert(buildMatches(div,regs));if(r.error){btn.disabled=false;return toast(errText(r.error))}
+ await sb.from("divisions").update({locked:true}).eq("id",divId);
+ toast(t("drawDone"));location.hash="bracket-"+divId;
+}
+// --- bracket view ---
+async function viewBracket(divId){
+ const {data:d,error}=await sb.from("divisions").select("*, events(id,title,sport,organizer_id)").eq("id",divId).single();if(error)throw error;
+ const [{data:ms},{data:regs}]=await Promise.all([sb.from("matches").select("*").eq("division_id",divId).order("round").order("position"),
+  sb.from("registrations").select("id,status,club_name,profiles(full_name)").eq("division_id",divId).eq("status","confirmed")]);
+ const nm={};(regs||[]).forEach(r=>nm[r.id]=r);
+ const canDraw=me&&(me.id===d.events.organizer_id||me.role==="admin");
+ const line=(id,cls,w,emptyTxt)=>id?`<div class="${cls} ${w===id?"w":w?"l":""}"><span>${esc(nm[id]?.profiles?.full_name||"—")}${nm[id]?.club_name?` <small>${esc(nm[id].club_name)}</small>`:""}</span></div>`:`<div class="${cls} e"><span>${emptyTxt}</span></div>`;
+ const card=m=>`<div class="bm">${line(m.red_id,"r",m.winner_id,m.round===1&&m.part==="main"&&m.win_reason==="bye"?t("bye"):"…")}${line(m.blue_id,"b",m.winner_id,m.round===1&&m.part==="main"&&m.win_reason==="bye"?t("bye"):"…")}</div>`;
+ const parts={};(ms||[]).forEach(m=>(parts[m.part]=parts[m.part]||[]).push(m));
+ let html="";
+ if(parts.main){const main=parts.main,R=Math.max(...main.map(m=>m.round));
+  const label=r=>d.bracket==="best_of_3"?t("bout")+" "+r:r===R?t("final"):"1/"+2**(R-r);
+  html+=`<div class="card"><div class="bracket">${Array.from({length:R},(_,i)=>i+1).map(r=>`<div class="bcol"><h5>${label(r)}</h5>${main.filter(m=>m.round===r).map(card).join("")}</div>`).join("")}</div>
+  ${parts.bronze?`<h2 style="font-size:15px;margin-top:10px">${t("bronzeM")}</h2><div style="max-width:240px">${parts.bronze.map(card).join("")}</div>`:""}</div>`}
+ Object.keys(parts).filter(k=>k.startsWith("pool")).sort().forEach(k=>{const pm=parts[k],ids=[...new Set(pm.flatMap(m=>[m.red_id,m.blue_id]).filter(Boolean))],R=Math.max(...pm.map(m=>m.round));
+  html+=`<div class="card"><h2>${k==="pool"?t("b_round_robin"):t("pool")+" "+k.slice(5)}</h2><div class="names" style="margin-bottom:16px">${ids.map(i=>`<span>${esc(nm[i]?.profiles?.full_name||"—")}</span>`).join("")}</div>
+  <div class="bracket">${Array.from({length:R},(_,i)=>i+1).map(r=>`<div class="bcol" style="justify-content:flex-start"><h5>${t("round")} ${r}</h5>${pm.filter(m=>m.round===r).map(card).join("")}</div>`).join("")}</div></div>`});
+ const note={repechage_judo:"repNote",repechage_full:"repNote",double:"doubleNote",pools:"poolsNote"}[d.bracket];
+ $("view").innerHTML=`<a href="#event-${d.events.id}" class="meta">${t("back")}</a>
+ <div style="margin:14px 0 6px"><span class="tag">${esc(SPORT[d.events.sport][L])}</span></div>
+ <h1>${esc(d.name)}</h1><p class="sub">${esc(d.events.title)} · ${t("system")}: ${t("b_"+d.bracket)} · ${(regs||[]).length} ${t("participants")}</p>
+ ${canDraw?`<div class="toolbar" style="margin-bottom:18px"><button class="btn ${ms&&ms.length?"btn-line":"btn-red"}" onclick="doDraw('${d.id}','${d.events.id}',this,${ms&&ms.length?1:0})">${ms&&ms.length?t("redraw"):t("draw")}</button><a class="btn btn-line" href="#manage-${d.events.id}">${t("manage")}</a></div>`:""}
+ ${note&&ms&&ms.length?`<div class="msg msg-info">${t(note)}</div>`:""}
+ ${html||`<div class="card empty">${t("noDraw")}${(regs||[]).length?`<div class="names" style="justify-content:center;margin-top:14px">${regs.map(r=>`<span>${esc(r.profiles?.full_name)}</span>`).join("")}</div>`:""}</div>`}`;
+}
 
 /* ================= views: admin ================= */
 async function viewAdmin(){
