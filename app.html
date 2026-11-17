@@ -741,7 +741,8 @@ async function viewAthlete(id){
   const oids=[...new Set(ms.map(m=>ids.includes(m.red_id)?m.blue_id:m.red_id))];
   if(oids.length){const {data:o}=await sb.from("registrations").select("id,athlete_id,profiles(full_name)").in("id",oids);(o||[]).forEach(x=>opp[x.id]=x)}}
  const today=new Date().toISOString().slice(0,10);
- const up=(regs||[]).filter(r=>r.events&&r.events.starts_on>=today&&r.events.status!=="finished");
+ const hasRes=r=>r.place||ms.some(m=>m.red_id===r.id||m.blue_id===r.id);
+ const up=(regs||[]).filter(r=>r.events&&r.events.starts_on>=today&&["open","closed","draft"].includes(r.events.status)&&!hasRes(r));
  const past=(regs||[]).filter(r=>!up.includes(r)).sort((a,b)=>(b.events?.starts_on||"").localeCompare(a.events?.starts_on||""));
  const s=st||{events:0,matches:0,wins:0,losses:0,by_method:{},gold:0,silver:0,bronze:0};
  const rate=s.matches?Math.round(s.wins/s.matches*100):0;const bm=s.by_method||{};const maxM=Math.max(1,...Object.values(bm));
