@@ -326,11 +326,11 @@ async function viewEvents(){
   :`<div class="card empty">${t("noEvents")}</div>`}`;
 }
 async function viewEvent(id){
- const [{data:e,error},{data:divs},{data:regs}]=await Promise.all([
+ let [{data:e,error},{data:divs},{data:regs}]=await Promise.all([
   sb.from("events").select("*, profiles(full_name)").eq("id",id).single(),
   sb.from("divisions").select("*").eq("event_id",id).order("name"),
   sb.from("registrations").select("id,division_id,athlete_id,status,profiles(full_name)").eq("event_id",id).neq("status","cancelled")]);
- if(error)throw error;
+ if(error)throw error;divs=sortDivs(divs);
  const by={};(regs||[]).forEach(r=>(by[r.division_id]=by[r.division_id]||[]).push(r));
  const mine=new Set((regs||[]).filter(r=>me&&r.athlete_id===me.id).map(r=>r.division_id));
  const canApply=e.status==="open"&&(divs||[]).length;
@@ -403,11 +403,11 @@ async function viewOrg(){
 }
 async function viewManage(id){
  await loadMe();chrome();
- const [{data:e,error},{data:divs},{data:regs}]=await Promise.all([
+ let [{data:e,error},{data:divs},{data:regs}]=await Promise.all([
   sb.from("events").select("*").eq("id",id).single(),
   sb.from("divisions").select("*").eq("event_id",id).order("name"),
   sb.from("registrations").select("id,division_id,status,paid,weight_in,club_name,created_at,profiles(full_name)").eq("event_id",id).order("created_at")]);
- if(error)throw error;
+ if(error)throw error;divs=sortDivs(divs);
  if(e.organizer_id!==me.id&&me.role!=="admin"){$("view").innerHTML=`<div class="msg msg-err">${t("onlyAdmin")}</div>`;return}
  const dn={};(divs||[]).forEach(d=>dn[d.id]=d.name);
  const rs=regs||[],live=rs.filter(r=>r.status!=="cancelled");
@@ -455,6 +455,14 @@ async function delDiv(id,ev,btn){
  const {error}=await sb.from("divisions").delete().eq("id",id);if(error)return toast(errText(error));viewManage(ev)}
 
 
+
+/* сортировка категорий: пол → возраст → пояс → вес (абсолют в конце) */
+const BELT_ORDER=["white","blue","purple","brown","black"];
+const beltIdx=b=>{if(!b)return -1;for(const L2 of ["ru","kz","en"]){const i=BELT_ORDER.findIndex(k=>TX[L2]["belt_"+k]===b);if(i>=0)return i}return 99};
+const isOpen=d=>["ru","kz","en"].some(L2=>d.name.includes(TX[L2].openCl));
+function sortDivs(list){const G={m:0,f:1,mixed:2};return (list||[]).slice().sort((a,b)=>
+ (G[a.gender]??3)-(G[b.gender]??3)||(a.age_min??0)-(b.age_min??0)||beltIdx(a.belt)-beltIdx(b.belt)||
+ ((a.weight_max??(isOpen(a)?1e6:1e5))-(b.weight_max??(isOpen(b)?1e6:1e5)))||a.name.localeCompare(b.name))}
 /* ================= presets & brackets ================= */
 const fmtW=w=>typeof w==="string"?w+" "+t("kg"):"−"+w+" "+t("kg");
 function presetPanel(e){
